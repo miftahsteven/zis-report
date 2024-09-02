@@ -5,14 +5,17 @@ import withRouter from "components/Common/withRouter";
 
 //i18n
 import { withTranslation } from "react-i18next";
-import SidebarContent from "./SidebarContent";
+//import SidebarContent from "./SidebarContent";
+import SidebarContent from "./SidebarMenu";
 
 import { Link } from "react-router-dom";
 
-import logo from "../../assets/images/logo.svg";
+//import logo from "../../assets/images/logo.svg";
+import logo from "../../assets/images/zis-logo.png";
 import logoLightPng from "../../assets/images/logo-light.png";
 import logoLightSvg from "../../assets/images/logo-light.svg";
-import logoDark from "../../assets/images/logo-dark.png";
+//import logoDark from "../../assets/images/logo-dark.png";
+import logoDark from "../../assets/images/zis-logo.png";
 
 const Sidebar = props => {
 
@@ -22,10 +25,10 @@ const Sidebar = props => {
         <div className="navbar-brand-box">
           <Link to="/" className="logo logo-dark">
             <span className="logo-sm">
-              <img src={logo} alt="" height="22" />
+              <img src={logo} alt="" height="42" />
             </span>
             <span className="logo-lg">
-              <img src={logoDark} alt="" height="17" />
+              <img src={logoDark} alt="" height="37" />
             </span>
           </Link>
 
