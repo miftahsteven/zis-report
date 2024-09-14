@@ -175,6 +175,9 @@ import ContactsProfile from "../pages/Contacts/ContactsProfile/contacts-profile"
 //All Dev Page Routes - Stevene 7 Agustus 2024
 import Login from "../devPage/Auth/Login";
 import Dashboard from "../devPage/Dashboard/index"
+import GlAccount from "devPage/Financial/glAccount/pages";
+import AsnafType from "devPage/Financial/asnafType/pages";
+import Program from "devPage/Financial/program/pages";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <Dashboard /> },
@@ -318,6 +321,11 @@ const authProtectedRoutes = [
   { path: "/pages-timeline", component: <PagesTimeline /> },
   { path: "/pages-faqs", component: <PagesFaqs /> },
   { path: "/pages-pricing", component: <PagesPricing /> },
+
+  //Financial Menu
+  { path: "/financial-program", component: <Program /> },
+  { path: "/financial-gl", component: <GlAccount /> },
+  { path: "/financial-asnaf", component: <AsnafType /> },
 
   // this route should be at the end of all other routes
   // eslint-disable-next-line react/display-name

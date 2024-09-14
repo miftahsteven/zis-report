@@ -154,38 +154,38 @@ const SidebarContent = props => {
               <ul className="sub-menu">
                 <li>
                   <Link to="/dashboard">{props.t("semua")}</Link>
-                </li>                
+                </li>
               </ul>
             </li>
 
             <li className="menu-title">{props.t("Semua Menu Laporan")}</li>
-            
+
             <li>
-              <Link to="/#" className="has-arrow">                
+              <Link to="/#" className="has-arrow">
                 <i className="bx bx-stats"></i>
                 <span key="t-jobs">{props.t("Laporan-laporan")}</span>
               </Link>
               <ul className="sub-menu">
-                <li><Link to="/dashboard-zis">{props.t("Report ZIS")}</Link></li>    
-                <li><Link to="/dashboard-wakaf">{props.t("Report Wakaf")}</Link></li>        
-                <li><Link to="/dashboard-aktifitas">{props.t("Report Aktifitas")}</Link></li>           
-              </ul>              
+                <li><Link to="/dashboard-zis">{props.t("Report ZIS")}</Link></li>
+                <li><Link to="/dashboard-wakaf">{props.t("Report Wakaf")}</Link></li>
+                <li><Link to="/dashboard-aktifitas">{props.t("Report Aktifitas")}</Link></li>
+              </ul>
             </li>
 
             <li>
-              <Link to="/#" className="has-arrow">                
+              <Link to="/#" className="has-arrow">
                 <i className="bx bx-dollar-circle"></i>
                 <span key="t-jobs">{props.t("Financial")}</span>
               </Link>
               <ul className="sub-menu">
-              <li><Link to="/job-list">{props.t("Program")}</Link></li>     
-                <li><Link to="/job-list">{props.t("CALK")}</Link></li>     
-                <li><Link to="/job-list">{props.t("Per GL")}</Link></li>             
-                <li><Link to="/job-list">{props.t("Type Hasnaf")}</Link></li>             
-              </ul>              
+                <li><Link to="/financial-program">{props.t("Program")}</Link></li>
+                {/* <li><Link to="/job-list">{props.t("CALK")}</Link></li> */}
+                <li><Link to="/financial-gl">{props.t("GL Account")}</Link></li>
+                <li><Link to="/financial-asnaf">{props.t("Asnaf Type")}</Link></li>
+              </ul>
             </li>
 
-            
+
           </ul>
         </div>
       </SimpleBar>
