@@ -100,6 +100,7 @@ const TableContainer = ({
   const table = useReactTable({
     columns,
     data,
+    initialState: { pagination: { pageSize: 10 } },
     filterFns: {
       fuzzy: fuzzyFilter,
     },
@@ -129,6 +130,10 @@ const TableContainer = ({
     getState
   } = table;
 
+  useEffect(() => {
+    table.setPageSize(table.options.data.length);
+  }, [table.options.data.length, table]);
+
   // useEffect(() => {
   //   Number(customPageSize) && setPageSize(Number(customPageSize));
   // }, [customPageSize, setPageSize]);
@@ -146,6 +151,9 @@ const TableContainer = ({
                 table.setPageSize(Number(e.target.value))
               }}
             >
+              <option value={table.options.data.length}>
+                Show All
+              </option>
               {[10, 20, 30, 40, 50].map(pageSize => (
                 <option key={pageSize} value={pageSize}>
                   Show {pageSize}
