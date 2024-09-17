@@ -2,10 +2,10 @@ import { keepPreviousData, useQuery, useQueryClient, useMutation } from '@tansta
 
 import api from 'lib/axios';
 
-const requestProgram = async (params = {}) => {
+const requestWakaf = async (params = {}) => {
   const { data } = await api.request({
     method: 'GET',
-    url: '/ref/program-report',
+    url: '/ref/wakaf-report',
     params: {
       ...params,
     },
@@ -14,12 +14,12 @@ const requestProgram = async (params = {}) => {
   return data;
 };
 
-const useMutateDataProgram = (params = {}) => {
+const useMutateDataWakaf = (params = {}) => {
   return useQuery({
-    queryKey: ['all-prog', params],
-    queryFn: () => requestProgram(params),
+    queryKey: ['all-wakaf', params],
+    queryFn: () => requestWakaf(params),
     // placeholderData: keepPreviousData,
   });
 };
 
-export default useMutateDataProgram;
+export default useMutateDataWakaf;

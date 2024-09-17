@@ -101,6 +101,7 @@ const Program = () => {
         ],
         []
     );
+    const tableData = data?.data || [];
 
     return (
         <React.Fragment>
@@ -122,7 +123,7 @@ const Program = () => {
                                         <CardBody>
                                             <TableContainer
                                                 columns={columns}
-                                                data={data.data || []}
+                                                data={tableData || []}
                                                 isCustomPageSize={true}
                                                 isGlobalFilter={true}
                                                 isJobListGlobalFilter={true}

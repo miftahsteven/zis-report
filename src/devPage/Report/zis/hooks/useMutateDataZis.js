@@ -2,10 +2,10 @@ import { keepPreviousData, useQuery, useQueryClient, useMutation } from '@tansta
 
 import api from 'lib/axios';
 
-const requestProgram = async (params = {}) => {
+const requestZis = async (params = {}) => {
   const { data } = await api.request({
     method: 'GET',
-    url: '/ref/program-report',
+    url: '/ref/zis-report',
     params: {
       ...params,
     },
@@ -14,12 +14,12 @@ const requestProgram = async (params = {}) => {
   return data;
 };
 
-const useMutateDataProgram = (params = {}) => {
+const useMutateDataZis = (params = {}) => {
   return useQuery({
-    queryKey: ['all-prog', params],
-    queryFn: () => requestProgram(params),
+    queryKey: ['all-zis', params],
+    queryFn: () => requestZis(params),
     // placeholderData: keepPreviousData,
   });
 };
 
-export default useMutateDataProgram;
+export default useMutateDataZis;

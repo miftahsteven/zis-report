@@ -97,6 +97,7 @@ const GlAccount = () => {
         ],
         []
     );
+    const tableData = data?.data || [];
 
     return (
         <React.Fragment>
@@ -118,7 +119,7 @@ const GlAccount = () => {
                                         <CardBody>
                                             <TableContainer
                                                 columns={columns}
-                                                data={data.data || []}
+                                                data={tableData || []}
                                                 isCustomPageSize={true}
                                                 isGlobalFilter={true}
                                                 isJobListGlobalFilter={true}

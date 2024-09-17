@@ -16,7 +16,7 @@ const requestAktifitas = async (params = {}) => {
 
 const useMutateDataAktifitas = (params = {}) => {
   return useQuery({
-    queryKey: ['all-gl-account', params],
+    queryKey: ['all-aktifitas', params],
     queryFn: () => requestAktifitas(params),
     // placeholderData: keepPreviousData,
   });

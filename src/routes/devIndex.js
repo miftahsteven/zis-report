@@ -179,6 +179,8 @@ import GlAccount from "devPage/Financial/glAccount/pages";
 import AsnafType from "devPage/Financial/asnafType/pages";
 import Program from "devPage/Financial/program/pages";
 import Aktifitas from "devPage/Report/aktifitas/pages";
+import Zis from "devPage/Report/zis/pages";
+import Wakaf from "devPage/Report/wakaf/pages";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <Dashboard /> },
@@ -330,8 +332,8 @@ const authProtectedRoutes = [
 
   //Report Menu
   { path: "/dashboard-aktifitas", component: <Aktifitas /> },
-  { path: "/dashboard-zis", component: <Dashboard /> },
-  { path: "/dashboard-wakaf", component: <Dashboard /> },
+  { path: "/dashboard-zis", component: <Zis /> },
+  { path: "/dashboard-wakaf", component: <Wakaf /> },
 
   // this route should be at the end of all other routes
   // eslint-disable-next-line react/display-name

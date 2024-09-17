@@ -23,7 +23,7 @@ import { format } from 'date-fns';
 const Aktifitas = () => {
 
     //meta title
-    document.title = "Report Aktifitas | Dashboard Finansial";
+    document.title = "Report Aktifitas | Dashboard Report";
 
 
     const { data, isLoading: loading } = useMutateDataAktifitas()
@@ -103,6 +103,7 @@ const Aktifitas = () => {
         ],
         []
     );
+    const tableData = data?.data || [];
 
     return (
         <React.Fragment>
@@ -124,7 +125,7 @@ const Aktifitas = () => {
                                         <CardBody>
                                             <TableContainer
                                                 columns={columns}
-                                                data={data.data || []}
+                                                data={tableData || []}
                                                 isCustomPageSize={true}
                                                 isGlobalFilter={true}
                                                 isJobListGlobalFilter={true}
