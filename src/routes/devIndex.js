@@ -177,10 +177,12 @@ import Login from "../devPage/Auth/Login";
 import Dashboard from "../devPage/Dashboard/index"
 import GlAccount from "devPage/Financial/glAccount/pages";
 import AsnafType from "devPage/Financial/asnafType/pages";
-import Program from "devPage/Financial/program/pages";
 import Aktifitas from "devPage/Report/aktifitas/pages";
 import Zis from "devPage/Report/zis/pages";
 import Wakaf from "devPage/Report/wakaf/pages";
+import ProgramNonInternal from "devPage/Financial/program/nonInternal/pages";
+import ProgramInternal from "devPage/Financial/program/internal/pages";
+import Muzzaki from "devPage/Financial/muzzaki/pages";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <Dashboard /> },
@@ -326,9 +328,11 @@ const authProtectedRoutes = [
   { path: "/pages-pricing", component: <PagesPricing /> },
 
   //Financial Menu
-  { path: "/financial-program", component: <Program /> },
+  { path: "/financial-program-non-internal", component: <ProgramNonInternal /> },
+  { path: "/financial-program-internal", component: <ProgramInternal /> },
   { path: "/financial-gl", component: <GlAccount /> },
   { path: "/financial-asnaf", component: <AsnafType /> },
+  { path: "/financial-muzzaki", component: <Muzzaki /> },
 
   //Report Menu
   { path: "/dashboard-aktifitas", component: <Aktifitas /> },

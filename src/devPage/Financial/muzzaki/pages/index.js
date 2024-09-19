@@ -16,15 +16,17 @@ import {
 import Spinners from "components/Common/Spinner";
 import { ToastContainer } from "react-toastify";
 import { Link } from "react-router-dom";
-import useMutateDataProgram from "../hooks/useMutateDataProgram";
+import useMutateDataMuzzaki from "../hooks/useMutateDataMuzzaki";
 
-const Program = () => {
+import { format } from 'date-fns';
+
+const Muzzaki = () => {
 
     //meta title
-    document.title = "Program List | Dashboard Finansial";
+    document.title = "Muzzaki List | Dashboard Finansial";
 
 
-    const { data, isLoading: loading } = useMutateDataProgram()
+    const { data, isLoading: loading } = useMutateDataMuzzaki()
     const [isLoading, setLoading] = useState(loading)
 
     const columns = useMemo(
@@ -39,44 +41,74 @@ const Program = () => {
                 }
             },
             {
-                header: "Program Title",
-                accessorKey: "program_title",
+                header: "Nama",
+                accessorKey: "is_nologin",
+                enableColumnFilter: false,
+                enableSorting: true,
+                cell: (cellProps) => {
+                    const login = Number(cellProps.getValue());
+                    if (login === 0) {
+                        return <span>{cellProps.row.original.user.user_nama}</span>
+                    } else if (login === 1) {
+                        return <span>{cellProps.row.original.nama_muzaki}</span>
+                    }
+                },
+            },
+            {
+                header: 'Email',
+                accessorKey: "is_nologin",
+                enableColumnFilter: false,
+                enableSorting: true,
+                cell: (cellProps) => {
+                    const login = Number(cellProps.getValue());
+                    if (login === 0) {
+                        return <span>{cellProps.row.original.user.username}</span>
+                    } else if (login === 1) {
+                        return <span>{cellProps.row.original.email_muzaki}</span>
+                    }
+                },
+            },
+            {
+                header: 'Phone',
+                accessorKey: "is_nologin",
+                enableColumnFilter: false,
+                enableSorting: true,
+                cell: (cellProps) => {
+                    const login = Number(cellProps.getValue());
+                    if (login === 0) {
+                        return <span>{cellProps.row.original.user.user_phone}</span>
+                    } else if (login === 1) {
+                        return <span>{cellProps.row.original.phone_muzaki}</span>
+                    }
+                },
+            },
+            {
+                header: 'Program',
+                accessorKey: "program.program_title",
                 enableColumnFilter: false,
                 enableSorting: true,
             },
-            // {
-            //     header: 'Program Category',
-            //     accessorKey: "name",
-            //     enableColumnFilter: false,
-            //     enableSorting: true,
-            //     cell: (cellProps) => {
-            //         const desc = cellProps.getValue();
-            //         return <span className="badge badge-soft-info">{desc}</span>;
-            //     },
-            // },
             {
-                header: "Program Category",
-                accessorKey: "program_category_id",
+                header: 'Tanggal Transfer',
+                accessorKey: "trans_date",
                 enableColumnFilter: false,
                 enableSorting: true,
-            cell: (cellProps) => {
-                const gla_type = Number(cellProps.getValue());
-                if (gla_type < 9) {
-                    return <span className="badge badge-soft-success">{cellProps.row.original.name}</span>;
-                } else if (gla_type >= 9 && gla_type <= 17) {
-                    return <span className="badge badge-soft-warning">{cellProps.row.original.name}</span>;
-                } else if (gla_type === 98 || gla_type === 99) {
-                    return <span className="badge badge-soft-info">{cellProps.row.original.name}</span>;
-                } else {
-                    return <span className="badge badge-soft-danger">{cellProps.row.original.name}</span>;
+                cell: (cellProps) => {
+                    const tgl = format(new Date(cellProps.getValue()), 'dd MMMM yyyy')
+                    return <span>{tgl}</span>
                 }
             },
+            {
+                header: 'Payment Method',
+                accessorKey: "payment_method",
+                enableColumnFilter: false,
+                enableSorting: true,
             },
             {
                 header: 'Nominal',
                 enableColumnFilter: false,
                 enableSorting: true,
-                accessorKey: "nominal",
+                accessorKey: "amount",
                 cell: (cellProps) => {
                     const nominal = Number(cellProps.getValue());
                     return <span className="">{numberFormat(nominal)}</span>;
@@ -84,17 +116,17 @@ const Program = () => {
             },
             {
                 header: 'Status',
-                accessorKey: "program_status",
+                accessorKey: "status",
                 enableColumnFilter: false,
                 enableSorting: true,
                 cell: (cellProps) => {
-                    switch (cellProps.row.original.program_status) {
-                        case 1:
-                            return <Badge className="bg-success">Active</Badge>
-                        case "New":
-                            return <Badge className="bg-info">New</Badge>
-                        case 0:
-                            return <Badge className="bg-danger">Inactive</Badge>
+                    switch (cellProps.row.original.status) {
+                        case "success":
+                            return <Badge className="bg-success">Success</Badge>
+                        case "pending":
+                            return <Badge className="bg-info">Pending</Badge>
+                        case "failed":
+                            return <Badge className="bg-danger">Failed</Badge>
                     }
                 }
             },
@@ -107,7 +139,7 @@ const Program = () => {
         <React.Fragment>
             <div className="page-content">
                 <div className="container-fluid">
-                    <Breadcrumbs title="Program" breadcrumbItem="Program List" />
+                    <Breadcrumbs title="Muzzaki" breadcrumbItem="Muzzaki List" />
                     {
                         isLoading ? <Spinners setLoading={setLoading} />
                             :
@@ -116,7 +148,7 @@ const Program = () => {
                                     <Card>
                                         <CardBody className="border-bottom">
                                             <div className="d-flex align-items-center">
-                                                <h5 className="mb-0 card-title flex-grow-1">Program List</h5>
+                                                <h5 className="mb-0 card-title flex-grow-1">Muzzaki List</h5>
 
                                             </div>
                                         </CardBody>
@@ -146,4 +178,4 @@ const Program = () => {
 }
 
 
-export default Program;
+export default Muzzaki;

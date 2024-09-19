@@ -178,10 +178,12 @@ const SidebarContent = props => {
                 <span key="t-jobs">{props.t("Financial")}</span>
               </Link>
               <ul className="sub-menu">
-                <li><Link to="/financial-program">{props.t("Program")}</Link></li>
+                <li><Link to="/financial-program-internal">{props.t("Program Internal")}</Link></li>
+                <li><Link to="/financial-program-non-internal">{props.t("Program Non-Internal")}</Link></li>
                 {/* <li><Link to="/job-list">{props.t("CALK")}</Link></li> */}
                 <li><Link to="/financial-gl">{props.t("GL Account")}</Link></li>
                 <li><Link to="/financial-asnaf">{props.t("Asnaf Type")}</Link></li>
+                <li><Link to="/financial-muzzaki">{props.t("Muzzaki")}</Link></li>
               </ul>
             </li>
 
