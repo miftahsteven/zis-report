@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 import useMutateDataAktifitas from "../hooks/useMutateDataAktifitas";
 
 import { format } from 'date-fns';
+import { id } from 'date-fns/locale';
 
 const Aktifitas = () => {
 
@@ -52,7 +53,7 @@ const Aktifitas = () => {
                 enableColumnFilter: false,
                 enableSorting: true,
                 cell: (cellProps) => {
-                    const tgl = format(new Date(cellProps.getValue()), 'dd MMMM yyyy')
+                    const tgl = format(new Date(cellProps.getValue()), 'dd MMMM yyyy', { locale: id })
                     return <span>{tgl}</span>
                 }
             },

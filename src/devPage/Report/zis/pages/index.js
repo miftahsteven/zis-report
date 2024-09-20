@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 import useMutateDataZis from "../hooks/useMutateDataZis";
 
 import { format } from 'date-fns';
+import { id } from 'date-fns/locale';
 
 const Zis = () => {
 
@@ -45,6 +46,13 @@ const Zis = () => {
                 accessorKey: "nama",
                 enableColumnFilter: false,
                 enableSorting: true,
+                cell: (cellProps) => {
+                    return (
+                        <span style={{ width: '300px', display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                            {cellProps.getValue()}
+                        </span>
+                    );
+                }
             },
             {
                 header: "Nama Program",
@@ -64,7 +72,7 @@ const Zis = () => {
                 enableColumnFilter: false,
                 enableSorting: true,
                 cell: (cellProps) => {
-                    const tgl = format(new Date(cellProps.getValue()), 'dd MMMM yyyy')
+                    const tgl = format(new Date(cellProps.getValue()), 'dd MMMM yyyy', { locale: id })
                     return <span>{tgl}</span>
                 }
             },
@@ -111,8 +119,13 @@ const Zis = () => {
                 enableColumnFilter: false,
                 enableSorting: true,
                 cell: (cellProps) => {
-                    const tgl = format(new Date(cellProps.getValue()), 'dd MMMM yyyy')
-                    return <span>{tgl}</span>
+                    const date = cellProps.getValue()
+                    const tgl = format(new Date(date), 'dd MMMM yyyy', { locale: id })
+                    if (date === null) {
+                        return <span className="badge badge-soft-secondary">Tidak Diketahui</span>
+                    } else {
+                        return <span>{tgl}</span>
+                    }
                 }
             },
         ],

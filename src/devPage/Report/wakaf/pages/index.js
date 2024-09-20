@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 import useMutateDataWakaf from "../hooks/useMutateDataWakaf";
 
 import { format } from 'date-fns';
+import { id } from 'date-fns/locale';
 
 const Wakaf = () => {
 
@@ -61,14 +62,14 @@ const Wakaf = () => {
                     const referentorNama = cellProps.getValue()?.[0]?.referentor?.referentor_nama;
                     return <span>{referentorNama || 'Unknown'}</span>;
                 },
-            },     
+            },
             {
                 header: 'Tanggal Pengajuan',
                 accessorKey: "created_date",
                 enableColumnFilter: false,
                 enableSorting: true,
                 cell: (cellProps) => {
-                    const tgl = format(new Date(cellProps.getValue()), 'dd MMMM yyyy')
+                    const tgl = format(new Date(cellProps.getValue()), 'dd MMMM yyyy', { locale: id })
                     return <span>{tgl}</span>
                 }
             },

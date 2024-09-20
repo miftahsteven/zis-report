@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 import useMutateDataMuzzaki from "../hooks/useMutateDataMuzzaki";
 
 import { format } from 'date-fns';
+import { id } from 'date-fns/locale';
 
 const Muzzaki = () => {
 
@@ -94,8 +95,18 @@ const Muzzaki = () => {
                 enableColumnFilter: false,
                 enableSorting: true,
                 cell: (cellProps) => {
-                    const tgl = format(new Date(cellProps.getValue()), 'dd MMMM yyyy')
-                    return <span>{tgl}</span>
+                    const rawDate = cellProps.getValue();
+                    if (!rawDate) {
+                        return <span>-</span>;
+                    }
+
+                    const date = new Date(rawDate);
+                    if (isNaN(date.getTime())) {
+                        return <span>Invalid Date</span>;
+                    }
+
+                    const tgl = format(date, 'dd MMMM yyyy', { locale: id });
+                    return <span>{tgl}</span>;
                 }
             },
             {
