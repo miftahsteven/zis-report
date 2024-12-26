@@ -184,6 +184,7 @@ const SidebarContent = props => {
                 <li><Link to="/financial-gl">{props.t("GL Account")}</Link></li>
                 <li><Link to="/financial-asnaf">{props.t("Asnaf Type")}</Link></li>
                 <li><Link to="/financial-muzzaki">{props.t("Muzzaki")}</Link></li>
+                <li><Link to="/financial-calk">{props.t("CALK")}</Link></li>
               </ul>
             </li>
 

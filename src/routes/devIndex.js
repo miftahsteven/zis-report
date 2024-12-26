@@ -183,6 +183,7 @@ import Wakaf from "devPage/Report/wakaf/pages";
 import ProgramNonInternal from "devPage/Financial/program/nonInternal/pages";
 import ProgramInternal from "devPage/Financial/program/internal/pages";
 import Muzzaki from "devPage/Financial/muzzaki/pages";
+import CALK from "devPage/Financial/calk/pages";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <Dashboard /> },
@@ -333,6 +334,7 @@ const authProtectedRoutes = [
   { path: "/financial-gl", component: <GlAccount /> },
   { path: "/financial-asnaf", component: <AsnafType /> },
   { path: "/financial-muzzaki", component: <Muzzaki /> },
+  { path: "/financial-calk", component: <CALK /> },
 
   //Report Menu
   { path: "/dashboard-aktifitas", component: <Aktifitas /> },
