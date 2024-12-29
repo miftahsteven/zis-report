@@ -24,127 +24,127 @@ import { id } from 'date-fns/locale';
 const CALK = () => {
 
     //meta title
-    document.title = "Muzzaki List | Dashboard Finansial";
+    document.title = "CALK | Dashboard Finansial";
 
 
-    const { data, isLoading: loading } = useMutateDataMuzzaki()
-    const [isLoading, setLoading] = useState(loading)
+    // const { data, isLoading: loading } = useMutateDataMuzzaki()
+    // const [isLoading, setLoading] = useState(loading)
 
-    const columns = useMemo(
-        () => [
-            {
-                header: 'No',
-                // accessorKey: "id",
-                enableColumnFilter: false,
-                enableSorting: true,
-                cell: (cellProps) => {
-                    return <Link to="#" className="text-body fw-bold">{cellProps.row.index + 1}</Link>
-                }
-            },
-            {
-                header: "Nama",
-                accessorKey: "is_nologin",
-                enableColumnFilter: false,
-                enableSorting: true,
-                cell: (cellProps) => {
-                    const login = Number(cellProps.getValue());
-                    if (login === 0) {
-                        return <span>{cellProps.row.original.user.user_nama}</span>
-                    } else if (login === 1) {
-                        return <span>{cellProps.row.original.nama_muzaki}</span>
-                    }
-                },
-            },
-            {
-                header: 'Email',
-                accessorKey: "is_nologin",
-                enableColumnFilter: false,
-                enableSorting: true,
-                cell: (cellProps) => {
-                    const login = Number(cellProps.getValue());
-                    if (login === 0) {
-                        return <span>{cellProps.row.original.user.username}</span>
-                    } else if (login === 1) {
-                        return <span>{cellProps.row.original.email_muzaki}</span>
-                    }
-                },
-            },
-            {
-                header: 'Phone',
-                accessorKey: "is_nologin",
-                enableColumnFilter: false,
-                enableSorting: true,
-                cell: (cellProps) => {
-                    const login = Number(cellProps.getValue());
-                    if (login === 0) {
-                        return <span>{cellProps.row.original.user.user_phone}</span>
-                    } else if (login === 1) {
-                        return <span>{cellProps.row.original.phone_muzaki}</span>
-                    }
-                },
-            },
-            {
-                header: 'Program',
-                accessorKey: "program.program_title",
-                enableColumnFilter: false,
-                enableSorting: true,
-            },
-            {
-                header: 'Tanggal Transfer',
-                accessorKey: "trans_date",
-                enableColumnFilter: false,
-                enableSorting: true,
-                cell: (cellProps) => {
-                    const rawDate = cellProps.getValue();
-                    if (!rawDate) {
-                        return <span>-</span>;
-                    }
+    // const columns = useMemo(
+    //     () => [
+    //         {
+    //             header: 'No',
+    //             // accessorKey: "id",
+    //             enableColumnFilter: false,
+    //             enableSorting: true,
+    //             cell: (cellProps) => {
+    //                 return <Link to="#" className="text-body fw-bold">{cellProps.row.index + 1}</Link>
+    //             }
+    //         },
+    //         {
+    //             header: "Nama",
+    //             accessorKey: "is_nologin",
+    //             enableColumnFilter: false,
+    //             enableSorting: true,
+    //             cell: (cellProps) => {
+    //                 const login = Number(cellProps.getValue());
+    //                 if (login === 0) {
+    //                     return <span>{cellProps.row.original.user.user_nama}</span>
+    //                 } else if (login === 1) {
+    //                     return <span>{cellProps.row.original.nama_muzaki}</span>
+    //                 }
+    //             },
+    //         },
+    //         {
+    //             header: 'Email',
+    //             accessorKey: "is_nologin",
+    //             enableColumnFilter: false,
+    //             enableSorting: true,
+    //             cell: (cellProps) => {
+    //                 const login = Number(cellProps.getValue());
+    //                 if (login === 0) {
+    //                     return <span>{cellProps.row.original.user.username}</span>
+    //                 } else if (login === 1) {
+    //                     return <span>{cellProps.row.original.email_muzaki}</span>
+    //                 }
+    //             },
+    //         },
+    //         {
+    //             header: 'Phone',
+    //             accessorKey: "is_nologin",
+    //             enableColumnFilter: false,
+    //             enableSorting: true,
+    //             cell: (cellProps) => {
+    //                 const login = Number(cellProps.getValue());
+    //                 if (login === 0) {
+    //                     return <span>{cellProps.row.original.user.user_phone}</span>
+    //                 } else if (login === 1) {
+    //                     return <span>{cellProps.row.original.phone_muzaki}</span>
+    //                 }
+    //             },
+    //         },
+    //         {
+    //             header: 'Program',
+    //             accessorKey: "program.program_title",
+    //             enableColumnFilter: false,
+    //             enableSorting: true,
+    //         },
+    //         {
+    //             header: 'Tanggal Transfer',
+    //             accessorKey: "trans_date",
+    //             enableColumnFilter: false,
+    //             enableSorting: true,
+    //             cell: (cellProps) => {
+    //                 const rawDate = cellProps.getValue();
+    //                 if (!rawDate) {
+    //                     return <span>-</span>;
+    //                 }
 
-                    const date = new Date(rawDate);
-                    if (isNaN(date.getTime())) {
-                        return <span>Invalid Date</span>;
-                    }
+    //                 const date = new Date(rawDate);
+    //                 if (isNaN(date.getTime())) {
+    //                     return <span>Invalid Date</span>;
+    //                 }
 
-                    const tgl = format(date, 'dd MMMM yyyy', { locale: id });
-                    return <span>{tgl}</span>;
-                }
-            },
-            {
-                header: 'Payment Method',
-                accessorKey: "payment_method",
-                enableColumnFilter: false,
-                enableSorting: true,
-            },
-            {
-                header: 'Nominal',
-                enableColumnFilter: false,
-                enableSorting: true,
-                accessorKey: "amount",
-                cell: (cellProps) => {
-                    const nominal = Number(cellProps.getValue());
-                    return <span className="">{numberFormat(nominal)}</span>;
-                },
-            },
-            {
-                header: 'Status',
-                accessorKey: "status",
-                enableColumnFilter: false,
-                enableSorting: true,
-                cell: (cellProps) => {
-                    switch (cellProps.row.original.status) {
-                        case "success":
-                            return <Badge className="bg-success">Success</Badge>
-                        case "pending":
-                            return <Badge className="bg-info">Pending</Badge>
-                        case "failed":
-                            return <Badge className="bg-danger">Failed</Badge>
-                    }
-                }
-            },
-        ],
-        []
-    );
-    const tableData = data?.data || [];
+    //                 const tgl = format(date, 'dd MMMM yyyy', { locale: id });
+    //                 return <span>{tgl}</span>;
+    //             }
+    //         },
+    //         {
+    //             header: 'Payment Method',
+    //             accessorKey: "payment_method",
+    //             enableColumnFilter: false,
+    //             enableSorting: true,
+    //         },
+    //         {
+    //             header: 'Nominal',
+    //             enableColumnFilter: false,
+    //             enableSorting: true,
+    //             accessorKey: "amount",
+    //             cell: (cellProps) => {
+    //                 const nominal = Number(cellProps.getValue());
+    //                 return <span className="">{numberFormat(nominal)}</span>;
+    //             },
+    //         },
+    //         {
+    //             header: 'Status',
+    //             accessorKey: "status",
+    //             enableColumnFilter: false,
+    //             enableSorting: true,
+    //             cell: (cellProps) => {
+    //                 switch (cellProps.row.original.status) {
+    //                     case "success":
+    //                         return <Badge className="bg-success">Success</Badge>
+    //                     case "pending":
+    //                         return <Badge className="bg-info">Pending</Badge>
+    //                     case "failed":
+    //                         return <Badge className="bg-danger">Failed</Badge>
+    //                 }
+    //             }
+    //         },
+    //     ],
+    //     []
+    // );
+    // const tableData = data?.data || [];
 
     return (
         <React.Fragment>
@@ -167,9 +167,9 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col" className="text-end">2022</th>
-                                        <th scope="col" className="text-end">2021</th>
+                                        <th scope="col" className="col-6"></th>
+                                        <th scope="col" className="text-end col-3">2022</th>
+                                        <th scope="col" className="text-end col-3">2021</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -247,9 +247,9 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col" className="text-end">2022</th>
-                                        <th scope="col" className="text-end">2021</th>
+                                        <th scope="col" className="col-6"></th>
+                                        <th scope="col" className="text-end col-3">2022</th>
+                                        <th scope="col" className="text-end col-3">2021</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -304,14 +304,14 @@ const CALK = () => {
                                 <table className="table table-bordered">
                                     <thead className="table-light">
                                         <tr>
-                                            <th scope="col" rowSpan={2}></th>
-                                            <th scope="col" className="text-center" colSpan={4}>2022</th>
+                                            <th scope="col" rowSpan={2} className="col-4"></th>
+                                            <th scope="col" className="text-center col-8" colSpan={4}>2022</th>
                                         </tr>
                                         <tr>
-                                            <th scope="col" className="text-end">Saldo Awal</th>
-                                            <th scope="col" className="text-end">Penambahan</th>
-                                            <th scope="col" className="text-end">Pengurangan</th>
-                                            <th scope="col" className="text-end">Saldo Akhir</th>
+                                            <th scope="col" className="text-end col-2">Saldo Awal</th>
+                                            <th scope="col" className="text-end col-2">Penambahan</th>
+                                            <th scope="col" className="text-end col-2">Pengurangan</th>
+                                            <th scope="col" className="text-end col-2">Saldo Akhir</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -362,14 +362,14 @@ const CALK = () => {
                                 <table className="table table-bordered">
                                     <thead className="table-light">
                                         <tr>
-                                            <th scope="col" rowSpan={2}></th>
-                                            <th scope="col" className="text-center" colSpan={4}>2021</th>
+                                            <th scope="col" className="col-4" rowSpan={2}></th>
+                                            <th scope="col" className="text-center col-8" colSpan={4}>2021</th>
                                         </tr>
                                         <tr>
-                                            <th scope="col" className="text-end">Saldo Awal</th>
-                                            <th scope="col" className="text-end">Penambahan</th>
-                                            <th scope="col" className="text-end">Pengurangan</th>
-                                            <th scope="col" className="text-end">Saldo Akhir</th>
+                                            <th scope="col" className="text-end col-2">Saldo Awal</th>
+                                            <th scope="col" className="text-end col-2">Penambahan</th>
+                                            <th scope="col" className="text-end col-2">Pengurangan</th>
+                                            <th scope="col" className="text-end col-2">Saldo Akhir</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -436,9 +436,9 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col" className="text-end">2022</th>
-                                        <th scope="col" className="text-end">2021</th>
+                                        <th scope="col" className="col-6"></th>
+                                        <th scope="col" className="text-end col-3">2022</th>
+                                        <th scope="col" className="text-end col-3">2021</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -460,9 +460,9 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col" className="text-end">2022</th>
-                                        <th scope="col" className="text-end">2021</th>
+                                        <th scope="col" className="col-6"></th>
+                                        <th scope="col" className="text-end col-3">2022</th>
+                                        <th scope="col" className="text-end col-3">2021</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -488,8 +488,8 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col" className="text-end">2022</th>
-                                        <th scope="col" className="text-end">2021</th>
+                                        <th scope="col" className="text-end col-6">2022</th>
+                                        <th scope="col" className="text-end col-6">2021</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -510,8 +510,8 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col" className="text-end">2022</th>
-                                        <th scope="col" className="text-end">2021</th>
+                                        <th scope="col" className="text-end col-6">2022</th>
+                                        <th scope="col" className="text-end col-6">2021</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -532,8 +532,8 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col" className="text-end">2022</th>
-                                        <th scope="col" className="text-end">2021</th>
+                                        <th scope="col" className="text-end col-6">2022</th>
+                                        <th scope="col" className="text-end col-6">2021</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -554,8 +554,8 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col" className="text-end">2022</th>
-                                        <th scope="col" className="text-end">2021</th>
+                                        <th scope="col" className="text-end col-6">2022</th>
+                                        <th scope="col" className="text-end col-6">2021</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -576,8 +576,8 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col" className="text-end">2022</th>
-                                        <th scope="col" className="text-end">2021</th>
+                                        <th scope="col" className="text-end col-6">2022</th>
+                                        <th scope="col" className="text-end col-6">2021</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -602,9 +602,9 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col" className="text-end">2022</th>
-                                        <th scope="col" className="text-end">2021</th>
+                                        <th scope="col" className="col-6"></th>
+                                        <th scope="col" className="text-end col-3">2022</th>
+                                        <th scope="col" className="text-end col-3">2021</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -647,9 +647,9 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col" className="text-end">2022</th>
-                                        <th scope="col" className="text-end">2021</th>
+                                        <th scope="col" className="col-6"></th>
+                                        <th scope="col" className="text-end col-3">2022</th>
+                                        <th scope="col" className="text-end col-3">2021</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -684,9 +684,9 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <tbody>
                                     <tr className="fw-bold">
-                                        <td>Jumlah Penerimaan Dana Zakat</td>
-                                        <td className="text-end">6,910,127,553</td>
-                                        <td className="text-end">13,684,726,242</td>
+                                        <td className="col-6">Jumlah Penerimaan Dana Zakat</td>
+                                        <td className="text-end col-3">6,910,127,553</td>
+                                        <td className="text-end col-3">13,684,726,242</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -705,9 +705,9 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col" className="text-end">2022</th>
-                                        <th scope="col" className="text-end">2021</th>
+                                        <th scope="col" className="col-6"></th>
+                                        <th scope="col" className="text-end col-3">2022</th>
+                                        <th scope="col" className="text-end col-3">2021</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -726,9 +726,9 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col" className="text-end">2022</th>
-                                        <th scope="col" className="text-end">2021</th>
+                                        <th scope="col" className="col-6"></th>
+                                        <th scope="col" className="text-end col-3">2022</th>
+                                        <th scope="col" className="text-end col-3">2021</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -857,9 +857,9 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col" className="text-end">2022</th>
-                                        <th scope="col" className="text-end">2021</th>
+                                        <th scope="col" className="col-6"></th>
+                                        <th scope="col" className="text-end col-3">2022</th>
+                                        <th scope="col" className="text-end col-3">2021</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -888,9 +888,9 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col" className="text-end">2022</th>
-                                        <th scope="col" className="text-end">2021</th>
+                                        <th scope="col" className="col-6"></th>
+                                        <th scope="col" className="text-end col-3">2022</th>
+                                        <th scope="col" className="text-end col-3">2021</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -919,9 +919,9 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col" className="text-end">2022</th>
-                                        <th scope="col" className="text-end">2021</th>
+                                        <th scope="col" className="col-6"></th>
+                                        <th scope="col" className="text-end col-3">2022</th>
+                                        <th scope="col" className="text-end col-3">2021</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -975,9 +975,9 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col" className="text-end">2022</th>
-                                        <th scope="col" className="text-end">2021</th>
+                                        <th scope="col" className="col-6"></th>
+                                        <th scope="col" className="text-end col-3">2022</th>
+                                        <th scope="col" className="text-end col-3">2021</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1003,9 +1003,9 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <tbody>
                                     <tr className="fw-bold">
-                                        <td>Jumlah Penyaluran Dana Zakat</td>
-                                        <td className="text-end">6,910,127,553</td>
-                                        <td className="text-end">13,684,726,242</td>
+                                        <td className="col-6">Jumlah Penyaluran Dana Zakat</td>
+                                        <td className="text-end col-3">6,910,127,553</td>
+                                        <td className="text-end col-3">13,684,726,242</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1024,9 +1024,9 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col" className="text-end">2022</th>
-                                        <th scope="col" className="text-end">2021</th>
+                                        <th scope="col" className="col-6"></th>
+                                        <th scope="col" className="text-end col-3">2022</th>
+                                        <th scope="col" className="text-end col-3">2021</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1054,9 +1054,9 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col" className="text-end">2022</th>
-                                        <th scope="col" className="text-end">2021</th>
+                                        <th scope="col" className="col-6"></th>
+                                        <th scope="col" className="text-end col-3">2022</th>
+                                        <th scope="col" className="text-end col-3">2021</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1114,9 +1114,9 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col" className="text-end">2022</th>
-                                        <th scope="col" className="text-end">2021</th>
+                                        <th scope="col" className="col-6"></th>
+                                        <th scope="col" className="text-end col-3">2022</th>
+                                        <th scope="col" className="text-end col-3">2021</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1146,9 +1146,9 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <tbody>
                                     <tr className="fw-bold">
-                                        <td>Jumlah Penerimaan Dana Infak</td>
-                                        <td className="text-end">6,910,127,553</td>
-                                        <td className="text-end">13,684,726,242</td>
+                                        <td className="col-6">Jumlah Penerimaan Dana Infak</td>
+                                        <td className="text-end col-3">6,910,127,553</td>
+                                        <td className="text-end col-3">13,684,726,242</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1167,9 +1167,9 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col" className="text-end">2022</th>
-                                        <th scope="col" className="text-end">2021</th>
+                                        <th scope="col" className="col-6"></th>
+                                        <th scope="col" className="text-end col-3">2022</th>
+                                        <th scope="col" className="text-end col-3">2021</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1207,9 +1207,9 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col" className="text-end">2022</th>
-                                        <th scope="col" className="text-end">2021</th>
+                                        <th scope="col" className="col-6"></th>
+                                        <th scope="col" className="text-end col-3">2022</th>
+                                        <th scope="col" className="text-end col-3">2021</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1254,9 +1254,9 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <tbody>
                                     <tr className="fw-bold">
-                                        <td>Jumlah Penyaluran Dana Infak</td>
-                                        <td className="text-end">6,910,127,553</td>
-                                        <td className="text-end">13,684,726,242</td>
+                                        <td className="col-6">Jumlah Penyaluran Dana Infak</td>
+                                        <td className="text-end col-3">6,910,127,553</td>
+                                        <td className="text-end col-3">13,684,726,242</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1272,9 +1272,9 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col" className="text-end">2022</th>
-                                        <th scope="col" className="text-end">2021</th>
+                                        <th scope="col" className="col-6"></th>
+                                        <th scope="col" className="text-end col-3">2022</th>
+                                        <th scope="col" className="text-end col-3">2021</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1312,9 +1312,9 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col" className="text-end">2022</th>
-                                        <th scope="col" className="text-end">2021</th>
+                                        <th scope="col" className="col-6"></th>
+                                        <th scope="col" className="text-end col-3">2022</th>
+                                        <th scope="col" className="text-end col-3">2021</th>
                                     </tr>
                                 </thead>
                                 <tbody>

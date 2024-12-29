@@ -183,7 +183,10 @@ import Wakaf from "devPage/Report/wakaf/pages";
 import ProgramNonInternal from "devPage/Financial/program/nonInternal/pages";
 import ProgramInternal from "devPage/Financial/program/internal/pages";
 import Muzzaki from "devPage/Financial/muzzaki/pages";
-import CALK from "devPage/Financial/calk/pages";
+import CALK from "devPage/Financial/laporan/pages/calk";
+import Zakat from "devPage/Financial/laporan/pages/zakat";
+import Infak from "devPage/Financial/laporan/pages/infak";
+import Amil from "devPage/Financial/laporan/pages/amil";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <Dashboard /> },
@@ -335,7 +338,9 @@ const authProtectedRoutes = [
   { path: "/financial-asnaf", component: <AsnafType /> },
   { path: "/financial-muzzaki", component: <Muzzaki /> },
   { path: "/financial-calk", component: <CALK /> },
-
+  { path: "/financial-zakat", component: <Zakat /> },
+  { path: "/financial-infak", component: <Infak /> },
+  { path: "/financial-amil", component: <Amil /> },
   //Report Menu
   { path: "/dashboard-aktifitas", component: <Aktifitas /> },
   { path: "/dashboard-zis", component: <Zis /> },
