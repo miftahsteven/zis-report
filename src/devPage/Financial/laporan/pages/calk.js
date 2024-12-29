@@ -21,11 +21,75 @@ import useMutateDataMuzzaki from "../hooks/useMutateDataMuzzaki";
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
 
+const DebouncedInput = ({
+    value: initialValue,
+    onChange,
+    debounce = 500,
+    ...props
+}) => {
+    const [value, setValue] = useState(initialValue);
+
+    useEffect(() => {
+        setValue(initialValue);
+    }, [initialValue]);
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            onChange(value);
+        }, debounce);
+
+        return () => clearTimeout(timeout);
+    }, [debounce, onChange, value]);
+
+    return (
+        <React.Fragment>
+            <Col sm={4}>
+                <input {...props} value={value} onChange={e => setValue(e.target.value)} />
+            </Col>
+        </React.Fragment>
+    );
+};
+
 const CALK = () => {
 
     //meta title
     document.title = "CALK | Dashboard Finansial";
+    const [globalFilter, setGlobalFilter] = useState('');
 
+    const highlightWords = (keyword) => {
+        const headings = document.querySelectorAll('h5');
+        let firstMatchFound = false;
+
+        headings.forEach((heading) => {
+            const text = heading.textContent;
+
+            // Hapus sorotan sebelumnya
+            heading.innerHTML = text;
+
+            if (keyword.trim() === '') return;
+
+            // Sorot teks yang cocok
+            const regex = new RegExp(`(${keyword})`, 'gi');
+            const highlightedText = text.replace(
+                regex,
+                '<span class="bg-light">$1</span>'
+            );
+
+            heading.innerHTML = highlightedText;
+
+            // Scroll ke elemen yang pertama kali cocok
+            if (!firstMatchFound && regex.test(text)) {
+                firstMatchFound = true;
+                heading.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+    };
+
+    useEffect(() => {
+        if (document.getElementById('content')) {
+            highlightWords(globalFilter);
+        }
+    }, [globalFilter]);
 
     // const { data, isLoading: loading } = useMutateDataMuzzaki()
     // const [isLoading, setLoading] = useState(loading)
@@ -148,13 +212,19 @@ const CALK = () => {
 
     return (
         <React.Fragment>
-            <div className="page-content">
+            <div id="content" className="page-content">
                 <div className="container-fluid">
                     <Breadcrumbs title="CALK" breadcrumbItem="Catatan Atas Laporan Keuangan" />
                     <Card>
                         <CardBody className="border-bottom">
                             <div className="d-flex align-items-center">
                                 <h5 className="mb-0 card-title flex-grow-1">Catatan Atas Laporan Keuangan</h5>
+                                <DebouncedInput
+                                    value={globalFilter ?? ''}
+                                    onChange={value => setGlobalFilter(String(value))}
+                                    className="form-control search-box me-2 mb-2 d-inline-block"
+                                    placeholder={'Cari...'}
+                                />
                             </div>
                         </CardBody>
 
