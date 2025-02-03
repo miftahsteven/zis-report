@@ -16,10 +16,10 @@ import {
 import Spinners from "components/Common/Spinner";
 import { ToastContainer } from "react-toastify";
 import { Link } from "react-router-dom";
-import useMutateDataMuzzaki from "../hooks/useMutateDataMuzzaki";
+import useMutateDataCalk from "../hooks/useMutateDataCalk";
 
 import { format } from 'date-fns';
-import { id } from 'date-fns/locale';
+import { da, id } from 'date-fns/locale';
 
 const DebouncedInput = ({
     value: initialValue,
@@ -50,11 +50,22 @@ const DebouncedInput = ({
     );
 };
 
+const numberWithCommas = (x) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 const CALK = () => {
 
     //meta title
     document.title = "CALK | Dashboard Finansial";
     const [globalFilter, setGlobalFilter] = useState('');
+    const { data, isLoading: loading } = useMutateDataCalk()
+    const [isLoading, setLoading] = useState(loading)
+
+    //console.log("--->",data.filter(val => val.name === "Santunan Sembako"));
+    //console.log(data.data.filter(val => val.name == "Santunan Sembako"));
+
+    const dataQuery = data?.data || [];
 
     const highlightWords = (keyword) => {
         const headings = document.querySelectorAll('h5');
@@ -91,125 +102,7 @@ const CALK = () => {
         }
     }, [globalFilter]);
 
-    // const { data, isLoading: loading } = useMutateDataMuzzaki()
-    // const [isLoading, setLoading] = useState(loading)
-
-    // const columns = useMemo(
-    //     () => [
-    //         {
-    //             header: 'No',
-    //             // accessorKey: "id",
-    //             enableColumnFilter: false,
-    //             enableSorting: true,
-    //             cell: (cellProps) => {
-    //                 return <Link to="#" className="text-body fw-bold">{cellProps.row.index + 1}</Link>
-    //             }
-    //         },
-    //         {
-    //             header: "Nama",
-    //             accessorKey: "is_nologin",
-    //             enableColumnFilter: false,
-    //             enableSorting: true,
-    //             cell: (cellProps) => {
-    //                 const login = Number(cellProps.getValue());
-    //                 if (login === 0) {
-    //                     return <span>{cellProps.row.original.user.user_nama}</span>
-    //                 } else if (login === 1) {
-    //                     return <span>{cellProps.row.original.nama_muzaki}</span>
-    //                 }
-    //             },
-    //         },
-    //         {
-    //             header: 'Email',
-    //             accessorKey: "is_nologin",
-    //             enableColumnFilter: false,
-    //             enableSorting: true,
-    //             cell: (cellProps) => {
-    //                 const login = Number(cellProps.getValue());
-    //                 if (login === 0) {
-    //                     return <span>{cellProps.row.original.user.username}</span>
-    //                 } else if (login === 1) {
-    //                     return <span>{cellProps.row.original.email_muzaki}</span>
-    //                 }
-    //             },
-    //         },
-    //         {
-    //             header: 'Phone',
-    //             accessorKey: "is_nologin",
-    //             enableColumnFilter: false,
-    //             enableSorting: true,
-    //             cell: (cellProps) => {
-    //                 const login = Number(cellProps.getValue());
-    //                 if (login === 0) {
-    //                     return <span>{cellProps.row.original.user.user_phone}</span>
-    //                 } else if (login === 1) {
-    //                     return <span>{cellProps.row.original.phone_muzaki}</span>
-    //                 }
-    //             },
-    //         },
-    //         {
-    //             header: 'Program',
-    //             accessorKey: "program.program_title",
-    //             enableColumnFilter: false,
-    //             enableSorting: true,
-    //         },
-    //         {
-    //             header: 'Tanggal Transfer',
-    //             accessorKey: "trans_date",
-    //             enableColumnFilter: false,
-    //             enableSorting: true,
-    //             cell: (cellProps) => {
-    //                 const rawDate = cellProps.getValue();
-    //                 if (!rawDate) {
-    //                     return <span>-</span>;
-    //                 }
-
-    //                 const date = new Date(rawDate);
-    //                 if (isNaN(date.getTime())) {
-    //                     return <span>Invalid Date</span>;
-    //                 }
-
-    //                 const tgl = format(date, 'dd MMMM yyyy', { locale: id });
-    //                 return <span>{tgl}</span>;
-    //             }
-    //         },
-    //         {
-    //             header: 'Payment Method',
-    //             accessorKey: "payment_method",
-    //             enableColumnFilter: false,
-    //             enableSorting: true,
-    //         },
-    //         {
-    //             header: 'Nominal',
-    //             enableColumnFilter: false,
-    //             enableSorting: true,
-    //             accessorKey: "amount",
-    //             cell: (cellProps) => {
-    //                 const nominal = Number(cellProps.getValue());
-    //                 return <span className="">{numberFormat(nominal)}</span>;
-    //             },
-    //         },
-    //         {
-    //             header: 'Status',
-    //             accessorKey: "status",
-    //             enableColumnFilter: false,
-    //             enableSorting: true,
-    //             cell: (cellProps) => {
-    //                 switch (cellProps.row.original.status) {
-    //                     case "success":
-    //                         return <Badge className="bg-success">Success</Badge>
-    //                     case "pending":
-    //                         return <Badge className="bg-info">Pending</Badge>
-    //                     case "failed":
-    //                         return <Badge className="bg-danger">Failed</Badge>
-    //                 }
-    //             }
-    //         },
-    //     ],
-    //     []
-    // );
-    // const tableData = data?.data || [];
-
+   
     return (
         <React.Fragment>
             <div id="content" className="page-content">
@@ -238,8 +131,8 @@ const CALK = () => {
                                 <thead className="table-light">
                                     <tr>
                                         <th scope="col" className="col-6"></th>
-                                        <th scope="col" className="text-end col-3">2022</th>
-                                        <th scope="col" className="text-end col-3">2021</th>
+                                        <th scope="col" className="text-end col-3">2024</th>
+                                        {/* <th scope="col" className="text-end col-3">2021</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -249,60 +142,60 @@ const CALK = () => {
                                     </tr>
                                     <tr>
                                         <td>Kas Kecil Zakat</td>
-                                        <td className="text-end">13,399,700</td>
-                                        <td className="text-end">13,399,700</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">13,399,700</td> */}
                                     </tr>
                                     <tr>
                                         <td>Kas Kecil Infak</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr>
                                         <td></td>
-                                        <td className="text-end fw-bold">15,496,200</td>
-                                        <td className="text-end fw-bold">15,496,200</td>
+                                        <td className="text-end fw-bold">0</td>
+                                        {/* <td className="text-end fw-bold">15,496,200</td> */}
                                     </tr>
                                     {/* Data Bank */}
                                     <tr>
                                         <td className="fw-bold">Bank</td>
                                     </tr>
                                     {[
-                                        { bank: "MANDIRI 103-00-9526589-4", val2022: "131,367,813", val2021: "127,005,441" },
-                                        { bank: "MANDIRI 103-00-9526546-4", val2022: "347,530,420", val2021: "40,597,461" },
-                                        { bank: "MANDIRI 103-00-0500055-5", val2022: "442,899,536", val2021: "376,284,876" },
-                                        { bank: "BSM 7015.734.188", val2022: "98,123,456", val2021: "87,654,321" },
-                                        { bank: "BSM 7015.738.876", val2022: "67,890,123", val2021: "56,789,012" },
-                                        { bank: "BSM 7015.740.307", val2022: "45,678,901", val2021: "34,567,890" },
-                                        { bank: "BSM 7015.742.644", val2022: "23,456,789", val2021: "12,345,678" },
-                                        { bank: "BSM-8001516176", val2022: "11,223,344", val2021: "9,876,543" },
-                                        { bank: "BSM 99999.1111.8", val2022: "8,765,432", val2021: "7,654,321" },
-                                        { bank: "BSM 99999.3333.2", val2022: "6,543,210", val2021: "5,432,109" },
-                                        { bank: "BSM 7100922503", val2022: "4,321,098", val2021: "3,210,987" },
-                                        { bank: "BSM 9999987874", val2022: "2,109,876", val2021: "1,098,765" },
-                                        { bank: "BSM 7771110171", val2022: "987,654", val2021: "876,543" },
-                                        { bank: "BSM 7112454009", val2022: "765,432", val2021: "654,321" },
-                                        { bank: "BSM 5551002006", val2022: "543,210", val2021: "432,109" },
-                                        { bank: "BSM 3331002002", val2022: "321,098", val2021: "210,987" },
-                                        { bank: "BSM 1111002009", val2022: "109,876", val2021: "98,765" },
+                                        { bank: "MANDIRI 103-00-9526589-4", val2024: "0", val2021: "127,005,441" },
+                                        { bank: "MANDIRI 103-00-9526546-4", val2024: "0", val2021: "40,597,461" },
+                                        { bank: "MANDIRI 103-00-0500055-5", val2024: "0", val2021: "376,284,876" },
+                                        { bank: "BSM 7015.734.188", val2024: "15,000", val2021: "87,654,321" },
+                                        { bank: "BSM 7015.738.876", val2024: "12,635,985", val2021: "56,789,012" },
+                                        { bank: "BSM 7015.740.307", val2024: "0", val2021: "34,567,890" },
+                                        { bank: "BSM 7015.742.644", val2024: "-250,000,152", val2021: "12,345,678" },
+                                        { bank: "BSM-8001516176", val2024: "0", val2021: "9,876,543" },
+                                        { bank: "BSM 99999.1111.8", val2024: "-13,539,768", val2021: "7,654,321" },
+                                        { bank: "BSM 99999.3333.2", val2024: "-1,140,127,553", val2021: "5,432,109" },
+                                        { bank: "BSM 7100922503", val2024: "2,910,000", val2021: "3,210,987" },
+                                        { bank: "BSM 9999987874", val2024: "-56,357,186", val2021: "1,098,765" },
+                                        { bank: "BSM 7771110171", val2024: "0", val2021: "876,543" },
+                                        { bank: "BSM 7112454009", val2024: "-1,100,575,818", val2021: "654,321" },
+                                        { bank: "BSM 5551002006", val2024: "0", val2021: "432,109" },
+                                        { bank: "BSM 3331002002", val2024: "0", val2021: "210,987" },
+                                        { bank: "BSM 1111002009", val2024: "0", val2021: "98,765" },
                                     ].map((item, index) => (
                                         <tr key={index}>
                                             <td>{item.bank}</td>
-                                            <td className="text-end">{item.val2022}</td>
-                                            <td className="text-end">{item.val2021}</td>
+                                            <td className="text-end">{item.val2024}</td>
+                                            {/* <td className="text-end">{item.val2021}</td> */}
                                         </tr>
                                     ))}
                                     <tr className="fw-bold">
                                         <td></td>
-                                        <td className="text-end">5,698,569,135</td>
-                                        <td className="text-end">6,503,427,769</td>
+                                        <td className="text-end">-1,044,218,632</td>
+                                        {/* <td className="text-end">6,503,427,769</td> */}
                                     </tr>
                                     <tr>
                                         <td colSpan={4}></td>
                                     </tr>
                                     <tr className="fw-bold">
                                         <td>Jumlah Kas dan Setara Kas</td>
-                                        <td className="text-end">5,714,065,335</td>
-                                        <td className="text-end">6,518,923,969</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">6,518,923,969</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -318,40 +211,40 @@ const CALK = () => {
                                 <thead className="table-light">
                                     <tr>
                                         <th scope="col" className="col-6"></th>
-                                        <th scope="col" className="text-end col-3">2022</th>
-                                        <th scope="col" className="text-end col-3">2021</th>
+                                        <th scope="col" className="text-end col-3">2024</th>
+                                        {/* <th scope="col" className="text-end col-3">2021</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Piutang Penyaluran Zakat Regional</td>
-                                        <td className="text-end">433,909,626</td>
-                                        <td className="text-end">433,909,626</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">433,909,626</td> */}
                                     </tr>
                                     <tr>
                                         <td>Piutang Qardhul Hasan</td>
-                                        <td className="text-end">-</td>
-                                        <td className="text-end">-</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">-</td> */}
                                     </tr>
                                     <tr>
                                         <td>Piutang Lain-lain</td>
-                                        <td className="text-end">-</td>
-                                        <td className="text-end">-</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">-</td> */}
                                     </tr>
                                     <tr>
                                         <td>Dana Kerja Sama Rumah Zakat</td>
-                                        <td className="text-end">-</td>
-                                        <td className="text-end">-</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">-</td> */}
                                     </tr>
                                     <tr>
                                         <td>Piutang Penyaluran Imkas</td>
-                                        <td className="text-end">416,95,418</td>
-                                        <td className="text-end">-</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">-</td> */}
                                     </tr>
                                     <tr className="fw-bold">
                                         <td>Jumlah Piutang</td>
-                                        <td className="text-end">475,605,044</td>
-                                        <td className="text-end">433,909,626</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">433,909,626</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -375,7 +268,7 @@ const CALK = () => {
                                     <thead className="table-light">
                                         <tr>
                                             <th scope="col" rowSpan={2} className="col-4"></th>
-                                            <th scope="col" className="text-center col-8" colSpan={4}>2022</th>
+                                            <th scope="col" className="text-center col-8" colSpan={4}>2024</th>
                                         </tr>
                                         <tr>
                                             <th scope="col" className="text-end col-2">Saldo Awal</th>
@@ -390,46 +283,46 @@ const CALK = () => {
                                         </tr>
                                         <tr>
                                             <td>Alat Elektronik</td>
-                                            <td className="text-end">92,456,500</td>
+                                            <td className="text-end">0</td>
                                             <td className="text-end">-</td>
                                             <td className="text-end">-</td>
-                                            <td className="text-end">92,456,500</td>
+                                            <td className="text-end">0</td>
                                         </tr>
                                         <tr>
                                             <td>Jumlah</td>
-                                            <td className="text-end fw-bold">92,456,500</td>
+                                            <td className="text-end fw-bold">0</td>
                                             <td className="text-end fw-bold">-</td>
                                             <td className="text-end fw-bold">-</td>
-                                            <td className="text-end fw-bold">92,456,500</td>
+                                            <td className="text-end fw-bold">0</td>
                                         </tr>
                                         <tr>
                                             <td className="fw-bold">Akumulasi Penyusutan</td>
                                         </tr>
                                         <tr>
                                             <td>Alat Elektronik</td>
-                                            <td className="text-end">(64,061,063)</td>
-                                            <td className="text-end">(222,200)</td>
+                                            <td className="text-end">0</td>
+                                            <td className="text-end">0</td>
                                             <td className="text-end">-</td>
-                                            <td className="text-end">(64,283,263)</td>
+                                            <td className="text-end">0</td>
                                         </tr>
                                         <tr>
                                             <td>Jumlah</td>
-                                            <td className="text-end fw-bold">(64,061,063)</td>
-                                            <td className="text-end fw-bold">(222,200)</td>
+                                            <td className="text-end fw-bold">0</td>
+                                            <td className="text-end fw-bold">0</td>
                                             <td className="text-end fw-bold">-</td>
-                                            <td className="text-end fw-bold">(64,283,263)</td>
+                                            <td className="text-end fw-bold">0</td>
                                         </tr>
                                         <tr>
                                             <td colSpan={5}></td>
                                         </tr>
                                         <tr>
                                             <td>Nilai Buku</td>
-                                            <td colSpan={4} className="text-end fw-bold">28,173,237</td>
+                                            <td colSpan={4} className="text-end fw-bold">0</td>
                                         </tr>
                                     </tbody>
                                 </table>
 
-                                <table className="table table-bordered">
+                                {/* <table className="table table-bordered">
                                     <thead className="table-light">
                                         <tr>
                                             <th scope="col" className="col-4" rowSpan={2}></th>
@@ -485,7 +378,7 @@ const CALK = () => {
                                             <td colSpan={4} className="text-end fw-bold">28,395,437</td>
                                         </tr>
                                     </tbody>
-                                </table>
+                                </table> */}
                             </div>
                         </CardBody>
 
@@ -507,15 +400,15 @@ const CALK = () => {
                                 <thead className="table-light">
                                     <tr>
                                         <th scope="col" className="col-6"></th>
-                                        <th scope="col" className="text-end col-3">2022</th>
-                                        <th scope="col" className="text-end col-3">2021</th>
+                                        <th scope="col" className="text-end col-3">2024</th>
+                                        {/* <th scope="col" className="text-end col-3">2021</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Titipan Dana Infak SMS</td>
-                                        <td className="text-end fw-bold">252,398,066</td>
-                                        <td className="text-end fw-bold">252,398,066</td>
+                                        <td className="text-end fw-bold">0</td>
+                                        {/* <td className="text-end fw-bold">252,398,066</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -531,15 +424,15 @@ const CALK = () => {
                                 <thead className="table-light">
                                     <tr>
                                         <th scope="col" className="col-6"></th>
-                                        <th scope="col" className="text-end col-3">2022</th>
-                                        <th scope="col" className="text-end col-3">2021</th>
+                                        <th scope="col" className="text-end col-3">2024</th>
+                                        {/* <th scope="col" className="text-end col-3">2021</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Titipan Dana Non Halal</td>
-                                        <td className="text-end fw-bold">27,018,998</td>
-                                        <td className="text-end fw-bold">28,188,926</td>
+                                        <td className="text-end fw-bold">0</td>
+                                        {/* <td className="text-end fw-bold">28,188,926</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -558,14 +451,14 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col" className="text-end col-6">2022</th>
-                                        <th scope="col" className="text-end col-6">2021</th>
+                                        <th scope="col" className="text-end col-6">2024</th>
+                                        {/* <th scope="col" className="text-end col-6">2021</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td className="text-end fw-bold">21,339,329</td>
-                                        <td className="text-end fw-bold">19,339,329</td>
+                                        <td className="text-end fw-bold">0</td>
+                                        {/* <td className="text-end fw-bold">19,339,329</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -580,14 +473,14 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col" className="text-end col-6">2022</th>
-                                        <th scope="col" className="text-end col-6">2021</th>
+                                        <th scope="col" className="text-end col-6">2024</th>
+                                        {/* <th scope="col" className="text-end col-6">2021</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td className="text-end fw-bold">26,041,350</td>
-                                        <td className="text-end fw-bold">26,041,350</td>
+                                        <td className="text-end fw-bold">0</td>
+                                        {/* <td className="text-end fw-bold">26,041,350</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -602,14 +495,14 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col" className="text-end col-6">2022</th>
-                                        <th scope="col" className="text-end col-6">2021</th>
+                                        <th scope="col" className="text-end col-6">2024</th>
+                                        {/* <th scope="col" className="text-end col-6">2021</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td className="text-end fw-bold">224,312,221</td>
-                                        <td className="text-end fw-bold">224,312,221</td>
+                                        <td className="text-end fw-bold">0</td>
+                                        {/* <td className="text-end fw-bold">224,312,221</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -624,14 +517,14 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col" className="text-end col-6">2022</th>
-                                        <th scope="col" className="text-end col-6">2021</th>
+                                        <th scope="col" className="text-end col-6">2024</th>
+                                        {/* <th scope="col" className="text-end col-6">2021</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td className="text-end fw-bold">4,040,000</td>
-                                        <td className="text-end fw-bold">4,040,000</td>
+                                        <td className="text-end fw-bold">0</td>
+                                        {/* <td className="text-end fw-bold">4,040,000</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -646,14 +539,14 @@ const CALK = () => {
                             <table className="table table-bordered">
                                 <thead className="table-light">
                                     <tr>
-                                        <th scope="col" className="text-end col-6">2022</th>
-                                        <th scope="col" className="text-end col-6">2021</th>
+                                        <th scope="col" className="text-end col-6">2024</th>
+                                        {/* <th scope="col" className="text-end col-6">2021</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td className="text-end fw-bold">-</td>
-                                        <td className="text-end fw-bold">-</td>
+                                        {/* <td className="text-end fw-bold">-</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -673,40 +566,40 @@ const CALK = () => {
                                 <thead className="table-light">
                                     <tr>
                                         <th scope="col" className="col-6"></th>
-                                        <th scope="col" className="text-end col-3">2022</th>
-                                        <th scope="col" className="text-end col-3">2021</th>
+                                        <th scope="col" className="text-end col-3">2024</th>
+                                        {/* <th scope="col" className="text-end col-3">2021</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Penerimaan Zakat Profesi Potong Gaji</td>
-                                        <td className="text-end">13,399,700</td>
-                                        <td className="text-end">13,399,700</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">13,399,700</td> */}
                                     </tr>
                                     <tr>
                                         <td>Penerimaan Zakat Profesi Tunai</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr>
                                         <td>Penerimaan Zakat Hadiah</td>
-                                        <td className="text-end">13,399,700</td>
-                                        <td className="text-end">13,399,700</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">13,399,700</td> */}
                                     </tr>
                                     <tr>
                                         <td>Penerimaan Zakat Maal</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr>
                                         <td>Penerimaan Zakat Fitrah</td>
-                                        <td className="text-end">15,496,200</td>
-                                        <td className="text-end">15,496,200</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">15,496,200</td> */}
                                     </tr>
                                     <tr className="fw-bold">
                                         <td></td>
-                                        <td className="text-end">15,496,200</td>
-                                        <td className="text-end">15,496,200</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">15,496,200</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -718,35 +611,35 @@ const CALK = () => {
                                 <thead className="table-light">
                                     <tr>
                                         <th scope="col" className="col-6"></th>
-                                        <th scope="col" className="text-end col-3">2022</th>
-                                        <th scope="col" className="text-end col-3">2021</th>
+                                        <th scope="col" className="text-end col-3">2024</th>
+                                        {/* <th scope="col" className="text-end col-3">2021</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Penerimaan Bagi Hasil Bank Syariah</td>
-                                        <td className="text-end">13,399,700</td>
-                                        <td className="text-end">13,399,700</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">13,399,700</td> */}
                                     </tr>
                                     <tr>
                                         <td>Pengembalian Dana Bergulir Zakat</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr>
                                         <td>Pengembalian Dana Program</td>
-                                        <td className="text-end">13,399,700</td>
-                                        <td className="text-end">13,399,700</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">13,399,700</td> */}
                                     </tr>
                                     <tr>
                                         <td>Penerimaan Lainnya</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr className="fw-bold">
                                         <td></td>
-                                        <td className="text-end">15,496,200</td>
-                                        <td className="text-end">15,496,200</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">15,496,200</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -755,8 +648,8 @@ const CALK = () => {
                                 <tbody>
                                     <tr className="fw-bold">
                                         <td className="col-6">Jumlah Penerimaan Dana Zakat</td>
-                                        <td className="text-end col-3">6,910,127,553</td>
-                                        <td className="text-end col-3">13,684,726,242</td>
+                                        <td className="text-end col-3">0</td>
+                                        {/* <td className="text-end col-3">13,684,726,242</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -776,15 +669,15 @@ const CALK = () => {
                                 <thead className="table-light">
                                     <tr>
                                         <th scope="col" className="col-6"></th>
-                                        <th scope="col" className="text-end col-3">2022</th>
-                                        <th scope="col" className="text-end col-3">2021</th>
+                                        <th scope="col" className="text-end col-3">2024</th>
+                                        {/* <th scope="col" className="text-end col-3">2021</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Bagian Amil atas Dana Zakat</td>
-                                        <td className="text-end">750,708,039.25</td>
-                                        <td className="text-end">1,848,562,861.63</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">1,848,562,861.63</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -797,8 +690,8 @@ const CALK = () => {
                                 <thead className="table-light">
                                     <tr>
                                         <th scope="col" className="col-6"></th>
-                                        <th scope="col" className="text-end col-3">2022</th>
-                                        <th scope="col" className="text-end col-3">2021</th>
+                                        <th scope="col" className="text-end col-3">2024</th>
+                                        {/* <th scope="col" className="text-end col-3">2021</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -807,28 +700,28 @@ const CALK = () => {
                                     </tr>
                                     <tr>
                                         <td>Santunan Sembako</td>
-                                        <td className="text-end">1,483,100,000</td>
-                                        <td className="text-end">1,787,043,500</td>
+                                        <td className="text-end">{dataQuery.length > 0 ? numberWithCommas((dataQuery.filter(val => val.name == "Santunan Sembako"))[0].value) : 0}</td>
+                                        {/* <td className="text-end">1,787,043,500</td> */}
                                     </tr>
                                     <tr>
                                         <td>Yatim Piatu Dhuafa</td>
-                                        <td className="text-end">458,850,000</td>
-                                        <td className="text-end">734,050,000</td>
+                                        <td className="text-end">{dataQuery.length > 0 ? numberWithCommas((dataQuery.filter(val => val.name == "Yatim Piatu Dhuafa"))[0].value) : 0}</td>
+                                        {/* <td className="text-end">734,050,000</td> */}
                                     </tr>
                                     <tr>
                                         <td>Bantuan Biaya Hidup Individu</td>
-                                        <td className="text-end">-</td>
-                                        <td className="text-end">5,000,000</td>
+                                        <td className="text-end">{dataQuery.length > 0 ? numberWithCommas((dataQuery.filter(val => val.name == "Bantuan Biaya Hidup Individu"))[0].value): 0}</td>
+                                        {/* <td className="text-end">5,000,000</td> */}
                                     </tr>
                                     <tr>
                                         <td>Zakat fitrah</td>
-                                        <td className="text-end">6,935,500</td>
-                                        <td className="text-end">4,690,000</td>
+                                        <td className="text-end">{dataQuery.length > 0 ? numberWithCommas((dataQuery.filter(val => val.name == "Zakat fitrah"))[0].value) : 0}</td>
+                                        {/* <td className="text-end">4,690,000</td> */}
                                     </tr>
                                     <tr>
                                         <td>Bantuan Bea-Guru</td>
-                                        <td className="text-end">219,000,000</td>
-                                        <td className="text-end">439,000,000</td>
+                                        <td className="text-end">{dataQuery.length > 0 ? numberWithCommas((dataQuery.filter(val => val.name == "Bantuan Bea-Guru"))[0].value): 0}</td>
+                                        {/* <td className="text-end">439,000,000</td> */}
                                     </tr>
 
                                     <tr>
@@ -836,23 +729,23 @@ const CALK = () => {
                                     </tr>
                                     <tr>
                                         <td>Bantuan Beasiswa Rutin</td>
-                                        <td className="text-end">1,483,100,000</td>
-                                        <td className="text-end">1,787,043,500</td>
+                                        <td className="text-end">{dataQuery.length > 0 ? numberWithCommas((dataQuery.filter(val => val.name == "Bantuan Beasiswa Rutin"))[0].value): 0}</td>
+                                        {/* <td className="text-end">1,787,043,500</td> */}
                                     </tr>
                                     <tr>
                                         <td>Bantuan Beasiswa Putus</td>
-                                        <td className="text-end">458,850,000</td>
-                                        <td className="text-end">734,050,000</td>
+                                        <td className="text-end">{dataQuery.length > 0 ? numberWithCommas((dataQuery.filter(val => val.name == "Bantuan Beasiswa Putus"))[0].value): 0}</td>
+                                        {/* <td className="text-end">734,050,000</td> */}
                                     </tr>
                                     <tr>
                                         <td>Bantuan Buku & Perlengkapan Sekolah</td>
-                                        <td className="text-end">-</td>
-                                        <td className="text-end">5,000,000</td>
+                                        <td className="text-end">{dataQuery.length > 0 ? numberWithCommas((dataQuery.filter(val => val.name == "Bantuan Buku"))[0].value) : 0}</td>
+                                        {/* <td className="text-end">5,000,000</td> */}
                                     </tr>
                                     <tr>
                                         <td>Bantuan Prasarana Pendidikan</td>
-                                        <td className="text-end">6,935,500</td>
-                                        <td className="text-end">4,690,000</td>
+                                        <td className="text-end">{dataQuery.length > 0 ? numberWithCommas((dataQuery.filter(val => val.name == "Bantuan Prasarana Pendidikan"))[0].value): 0}</td>
+                                        {/* <td className="text-end">4,690,000</td> */}
                                     </tr>
 
                                     <tr>
@@ -860,18 +753,18 @@ const CALK = () => {
                                     </tr>
                                     <tr>
                                         <td>Pengobatan Individu</td>
-                                        <td className="text-end">1,483,100,000</td>
-                                        <td className="text-end">1,787,043,500</td>
+                                        <td className="text-end">{dataQuery.length > 0 ? numberWithCommas((dataQuery.filter(val => val.name == "Pengobatan Individu"))[0].value): 0}</td>
+                                        {/* <td className="text-end">1,787,043,500</td> */}
                                     </tr>
                                     <tr>
                                         <td>Baksos Kesehatan</td>
-                                        <td className="text-end">458,850,000</td>
-                                        <td className="text-end">734,050,000</td>
+                                        <td className="text-end">{dataQuery.length > 0 ? numberWithCommas((dataQuery.filter(val => val.name == "Baksos Kesehatan"))[0].value): 0}</td>
+                                        {/* <td className="text-end">734,050,000</td> */}
                                     </tr>
                                     <tr>
                                         <td>Klinik (Pusesling Gratis)</td>
-                                        <td className="text-end">-</td>
-                                        <td className="text-end">5,000,000</td>
+                                        <td className="text-end">{dataQuery.length > 0 ? numberWithCommas((dataQuery.filter(val => val.name == "Klinik"))[0].value): 0}</td>
+                                        {/* <td className="text-end">5,000,000</td> */}
                                     </tr>
 
                                     <tr>
@@ -879,13 +772,13 @@ const CALK = () => {
                                     </tr>
                                     <tr>
                                         <td>Pembinaan Ekonomi Lemah</td>
-                                        <td className="text-end">1,483,100,000</td>
-                                        <td className="text-end">1,787,043,500</td>
+                                        <td className="text-end">{dataQuery.length > 0 ? numberWithCommas((dataQuery.filter(val => val.name == "Pembinaan Ekonomi Lemah"))[0].value): 0}</td>
+                                        {/* <td className="text-end">1,787,043,500</td> */}
                                     </tr>
                                     <tr>
                                         <td>Bantuan Modal Usaha</td>
-                                        <td className="text-end">458,850,000</td>
-                                        <td className="text-end">734,050,000</td>
+                                        <td className="text-end">{dataQuery.length > 0 ? numberWithCommas((dataQuery.filter(val => val.name == "Bantuan Modal Usaha"))[0].value): 0}</td>
+                                        {/* <td className="text-end">734,050,000</td> */}
                                     </tr>
 
                                     <tr>
@@ -893,29 +786,29 @@ const CALK = () => {
                                     </tr>
                                     <tr>
                                         <td>Recovery dan Rehabilitasi Daerah Kumuh/Tertinggal</td>
-                                        <td className="text-end">1,483,100,000</td>
-                                        <td className="text-end">1,787,043,500</td>
+                                        <td className="text-end">{dataQuery.length > 0 ? numberWithCommas((dataQuery.filter(val => val.name == "Recovery"))[0].value): 0}</td>
+                                        {/* <td className="text-end">1,787,043,500</td> */}
                                     </tr>
                                     <tr>
                                         <td>Rescue Bencana - Konflik</td>
-                                        <td className="text-end">458,850,000</td>
-                                        <td className="text-end">734,050,000</td>
+                                        <td className="text-end">{dataQuery.length > 0 ? numberWithCommas((dataQuery.filter(val => val.name == "Rescue"))[0].value): 0}</td>
+                                        {/* <td className="text-end">734,050,000</td> */}
                                     </tr>
                                     <tr>
                                         <td>Bantuan Recovery Bencana</td>
-                                        <td className="text-end">-</td>
-                                        <td className="text-end">5,000,000</td>
+                                        <td className="text-end">{dataQuery.length > 0 ? numberWithCommas((dataQuery.filter(val => val.name == "Bencana"))[0].value): 0}</td>
+                                        {/* <td className="text-end">5,000,000</td> */}
                                     </tr>
                                     <tr>
                                         <td>Zakat Fakir Miskin Regional</td>
-                                        <td className="text-end">6,935,500</td>
-                                        <td className="text-end">4,690,000</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">4,690,000</td> */}
                                     </tr>
 
                                     <tr className="fw-bold">
                                         <td></td>
-                                        <td className="text-end">4,615,283,142</td>
-                                        <td className="text-end">9,017,457,974</td>
+                                        <td className="text-end">30,556,094</td>
+                                        {/* <td className="text-end">9,017,457,974</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -928,25 +821,25 @@ const CALK = () => {
                                 <thead className="table-light">
                                     <tr>
                                         <th scope="col" className="col-6"></th>
-                                        <th scope="col" className="text-end col-3">2022</th>
-                                        <th scope="col" className="text-end col-3">2021</th>
+                                        <th scope="col" className="text-end col-3">2024</th>
+                                        {/* <th scope="col" className="text-end col-3">2021</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Gharimin</td>
-                                        <td className="text-end">17,000,000</td>
-                                        <td className="text-end">31,310,000</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">31,310,000</td> */}
                                     </tr>
                                     <tr>
                                         <td>Zakat Gharimin Regional</td>
-                                        <td className="text-end">2,370,661</td>
-                                        <td className="text-end">5,893,466</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">5,893,466</td> */}
                                     </tr>
                                     <tr className="fw-bold">
                                         <td></td>
-                                        <td className="text-end">19,370,661</td>
-                                        <td className="text-end">37,203,466</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">37,203,466</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -959,25 +852,25 @@ const CALK = () => {
                                 <thead className="table-light">
                                     <tr>
                                         <th scope="col" className="col-6"></th>
-                                        <th scope="col" className="text-end col-3">2022</th>
-                                        <th scope="col" className="text-end col-3">2021</th>
+                                        <th scope="col" className="text-end col-3">2024</th>
+                                        {/* <th scope="col" className="text-end col-3">2021</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Muallaf</td>
-                                        <td className="text-end">17,000,000</td>
-                                        <td className="text-end">31,310,000</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">31,310,000</td> */}
                                     </tr>
                                     <tr>
                                         <td>Zakat Muallaf Regional</td>
-                                        <td className="text-end">2,370,661</td>
-                                        <td className="text-end">5,893,466</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">5,893,466</td> */}
                                     </tr>
                                     <tr className="fw-bold">
                                         <td></td>
-                                        <td className="text-end">19,370,661</td>
-                                        <td className="text-end">37,203,466</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">37,203,466</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -990,50 +883,50 @@ const CALK = () => {
                                 <thead className="table-light">
                                     <tr>
                                         <th scope="col" className="col-6"></th>
-                                        <th scope="col" className="text-end col-3">2022</th>
-                                        <th scope="col" className="text-end col-3">2021</th>
+                                        <th scope="col" className="text-end col-3">2024</th>
+                                        {/* <th scope="col" className="text-end col-3">2021</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Kafalah Da'i</td>
-                                        <td className="text-end">17,000,000</td>
-                                        <td className="text-end">31,310,000</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">31,310,000</td> */}
                                     </tr>
                                     <tr>
                                         <td>Pelatihan Da'i</td>
-                                        <td className="text-end">17,000,000</td>
-                                        <td className="text-end">31,310,000</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">31,310,000</td> */}
                                     </tr>
                                     <tr>
                                         <td>Pembinaan Umat (Dakwah)</td>
-                                        <td className="text-end">17,000,000</td>
-                                        <td className="text-end">31,310,000</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">31,310,000</td> */}
                                     </tr>
                                     <tr>
                                         <td>Prasarana Dakwah</td>
-                                        <td className="text-end">17,000,000</td>
-                                        <td className="text-end">31,310,000</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">31,310,000</td> */}
                                     </tr>
                                     <tr>
                                         <td>Bantuan Sarpras Pendidikan</td>
-                                        <td className="text-end">17,000,000</td>
-                                        <td className="text-end">31,310,000</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">31,310,000</td> */}
                                     </tr>
                                     <tr>
                                         <td>Bantuan untuk Palestina</td>
-                                        <td className="text-end">17,000,000</td>
-                                        <td className="text-end">31,310,000</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">31,310,000</td> */}
                                     </tr>
                                     <tr>
                                         <td>Zakat Fisabilillah Regional</td>
-                                        <td className="text-end">2,370,661</td>
-                                        <td className="text-end">5,893,466</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">5,893,466</td> */}
                                     </tr>
                                     <tr className="fw-bold">
                                         <td></td>
-                                        <td className="text-end">19,370,661</td>
-                                        <td className="text-end">37,203,466</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">37,203,466</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -1046,25 +939,25 @@ const CALK = () => {
                                 <thead className="table-light">
                                     <tr>
                                         <th scope="col" className="col-6"></th>
-                                        <th scope="col" className="text-end col-3">2022</th>
-                                        <th scope="col" className="text-end col-3">2021</th>
+                                        <th scope="col" className="text-end col-3">2024</th>
+                                        {/* <th scope="col" className="text-end col-3">2021</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Ibnu Sabil</td>
-                                        <td className="text-end">17,000,000</td>
-                                        <td className="text-end">31,310,000</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">31,310,000</td> */}
                                     </tr>
                                     <tr>
                                         <td>Zakat Ibnu Sabil Regional</td>
-                                        <td className="text-end">2,370,661</td>
-                                        <td className="text-end">5,893,466</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">5,893,466</td> */}
                                     </tr>
                                     <tr className="fw-bold">
                                         <td></td>
-                                        <td className="text-end">19,370,661</td>
-                                        <td className="text-end">37,203,466</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">37,203,466</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -1074,8 +967,8 @@ const CALK = () => {
                                 <tbody>
                                     <tr className="fw-bold">
                                         <td className="col-6">Jumlah Penyaluran Dana Zakat</td>
-                                        <td className="text-end col-3">6,910,127,553</td>
-                                        <td className="text-end col-3">13,684,726,242</td>
+                                        <td className="text-end col-3">0</td>
+                                        {/* <td className="text-end col-3">13,684,726,242</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -1095,25 +988,25 @@ const CALK = () => {
                                 <thead className="table-light">
                                     <tr>
                                         <th scope="col" className="col-6"></th>
-                                        <th scope="col" className="text-end col-3">2022</th>
-                                        <th scope="col" className="text-end col-3">2021</th>
+                                        <th scope="col" className="text-end col-3">2024</th>
+                                        {/* <th scope="col" className="text-end col-3">2021</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Penerimaan Infak untuk Palestina</td>
-                                        <td className="text-end">13,399,700</td>
-                                        <td className="text-end">13,399,700</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">13,399,700</td> */}
                                     </tr>
                                     <tr>
                                         <td>Penerimaan Infak Program Khusus</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr className="fw-bold">
                                         <td></td>
-                                        <td className="text-end">15,496,200</td>
-                                        <td className="text-end">15,496,200</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">15,496,200</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -1125,55 +1018,55 @@ const CALK = () => {
                                 <thead className="table-light">
                                     <tr>
                                         <th scope="col" className="col-6"></th>
-                                        <th scope="col" className="text-end col-3">2022</th>
-                                        <th scope="col" className="text-end col-3">2021</th>
+                                        <th scope="col" className="text-end col-3">2024</th>
+                                        {/* <th scope="col" className="text-end col-3">2021</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Peneriman Infak Jumat</td>
-                                        <td className="text-end">13,399,700</td>
-                                        <td className="text-end">13,399,700</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">13,399,700</td> */}
                                     </tr>
                                     <tr>
                                         <td>Penerimaan Infak Potong Gaji</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr>
                                         <td>Penerimaan Kotak Infak</td>
-                                        <td className="text-end">13,399,700</td>
-                                        <td className="text-end">13,399,700</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">13,399,700</td> */}
                                     </tr>
                                     <tr>
                                         <td>Penerimaan Infak Ceramah Umum</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr>
                                         <td>Penerimaan Infak Ramadhan</td>
-                                        <td className="text-end">13,399,700</td>
-                                        <td className="text-end">13,399,700</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">13,399,700</td> */}
                                     </tr>
                                     <tr>
                                         <td>Penerimaan Infak/Sedekah Umum</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr>
                                         <td>Penerimaan Infak 1000 Quran</td>
-                                        <td className="text-end">13,399,700</td>
-                                        <td className="text-end">13,399,700</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">13,399,700</td> */}
                                     </tr>
                                     <tr>
                                         <td>Penerimaan Fidyah</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr className="fw-bold">
                                         <td></td>
-                                        <td className="text-end">15,496,200</td>
-                                        <td className="text-end">15,496,200</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">15,496,200</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -1185,30 +1078,30 @@ const CALK = () => {
                                 <thead className="table-light">
                                     <tr>
                                         <th scope="col" className="col-6"></th>
-                                        <th scope="col" className="text-end col-3">2022</th>
-                                        <th scope="col" className="text-end col-3">2021</th>
+                                        <th scope="col" className="text-end col-3">2024</th>
+                                        {/* <th scope="col" className="text-end col-3">2021</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Pendapatan Bagi Hasil Bank Syariah</td>
-                                        <td className="text-end">13,399,700</td>
-                                        <td className="text-end">13,399,700</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">13,399,700</td> */}
                                     </tr>
                                     <tr>
                                         <td>Pengembalian Dana Bergulir</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr>
                                         <td>Pengembalian Dana Program</td>
-                                        <td className="text-end">13,399,700</td>
-                                        <td className="text-end">13,399,700</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">13,399,700</td> */}
                                     </tr>
                                     <tr className="fw-bold">
                                         <td></td>
-                                        <td className="text-end">15,496,200</td>
-                                        <td className="text-end">15,496,200</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">15,496,200</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -1217,8 +1110,8 @@ const CALK = () => {
                                 <tbody>
                                     <tr className="fw-bold">
                                         <td className="col-6">Jumlah Penerimaan Dana Infak</td>
-                                        <td className="text-end col-3">6,910,127,553</td>
-                                        <td className="text-end col-3">13,684,726,242</td>
+                                        <td className="text-end col-3">0</td>
+                                        {/* <td className="text-end col-3">13,684,726,242</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -1238,35 +1131,35 @@ const CALK = () => {
                                 <thead className="table-light">
                                     <tr>
                                         <th scope="col" className="col-6"></th>
-                                        <th scope="col" className="text-end col-3">2022</th>
-                                        <th scope="col" className="text-end col-3">2021</th>
+                                        <th scope="col" className="text-end col-3">2024</th>
+                                        {/* <th scope="col" className="text-end col-3">2021</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Bantuan Dana Kemanusiaan Palestina</td>
-                                        <td className="text-end">13,399,700</td>
-                                        <td className="text-end">13,399,700</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">13,399,700</td> */}
                                     </tr>
                                     <tr>
                                         <td>Penyaluran Dana Qurban</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr>
                                         <td>Bantuan Program Khusus</td>
-                                        <td className="text-end">13,399,700</td>
-                                        <td className="text-end">13,399,700</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">13,399,700</td> */}
                                     </tr>
                                     <tr>
                                         <td>Bantuan Rescue</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr className="fw-bold">
                                         <td></td>
-                                        <td className="text-end">15,496,200</td>
-                                        <td className="text-end">15,496,200</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">15,496,200</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -1278,45 +1171,45 @@ const CALK = () => {
                                 <thead className="table-light">
                                     <tr>
                                         <th scope="col" className="col-6"></th>
-                                        <th scope="col" className="text-end col-3">2022</th>
-                                        <th scope="col" className="text-end col-3">2021</th>
+                                        <th scope="col" className="text-end col-3">2024</th>
+                                        {/* <th scope="col" className="text-end col-3">2021</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Program Pendidikan</td>
-                                        <td className="text-end">13,399,700</td>
-                                        <td className="text-end">13,399,700</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">13,399,700</td> */}
                                     </tr>
                                     <tr>
                                         <td>Program Dakwah</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr>
                                         <td>Program Kesehatan</td>
-                                        <td className="text-end">13,399,700</td>
-                                        <td className="text-end">13,399,700</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">13,399,700</td> */}
                                     </tr>
                                     <tr>
                                         <td>Program Sosial</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr>
                                         <td>Penyaluran Amil</td>
-                                        <td className="text-end">13,399,700</td>
-                                        <td className="text-end">13,399,700</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">13,399,700</td> */}
                                     </tr>
                                     <tr>
                                         <td>Alokasi Pemanfaatan Aset Kelolaan</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr className="fw-bold">
                                         <td></td>
-                                        <td className="text-end">15,496,200</td>
-                                        <td className="text-end">15,496,200</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">15,496,200</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -1325,8 +1218,8 @@ const CALK = () => {
                                 <tbody>
                                     <tr className="fw-bold">
                                         <td className="col-6">Jumlah Penyaluran Dana Infak</td>
-                                        <td className="text-end col-3">6,910,127,553</td>
-                                        <td className="text-end col-3">13,684,726,242</td>
+                                        <td className="text-end col-3">0</td>
+                                        {/* <td className="text-end col-3">13,684,726,242</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -1343,30 +1236,30 @@ const CALK = () => {
                                 <thead className="table-light">
                                     <tr>
                                         <th scope="col" className="col-6"></th>
-                                        <th scope="col" className="text-end col-3">2022</th>
-                                        <th scope="col" className="text-end col-3">2021</th>
+                                        <th scope="col" className="text-end col-3">2024</th>
+                                        {/* <th scope="col" className="text-end col-3">2021</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Bagian Amil atas Dana Zakat</td>
-                                        <td className="text-end">13,399,700</td>
-                                        <td className="text-end">13,399,700</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">13,399,700</td> */}
                                     </tr>
                                     <tr>
                                         <td>Bagian Amil atas Dana Infak</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr>
                                         <td>Penerimaan Amil Lainnya</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr className="fw-bold">
                                         <td></td>
-                                        <td className="text-end">15,496,200</td>
-                                        <td className="text-end">15,496,200</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">15,496,200</td> */}
                                     </tr>
                                 </tbody>
                             </table>
@@ -1383,70 +1276,70 @@ const CALK = () => {
                                 <thead className="table-light">
                                     <tr>
                                         <th scope="col" className="col-6"></th>
-                                        <th scope="col" className="text-end col-3">2022</th>
-                                        <th scope="col" className="text-end col-3">2021</th>
+                                        <th scope="col" className="text-end col-3">2024</th>
+                                        {/* <th scope="col" className="text-end col-3">2021</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Gaji Amil</td>
-                                        <td className="text-end">13,399,700</td>
-                                        <td className="text-end">13,399,700</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">13,399,700</td> */}
                                     </tr>
                                     <tr>
                                         <td>Pengembangan SDM</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr>
                                         <td>Beban Amil Cabang</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr>
                                         <td>Biaya Bank</td>
-                                        <td className="text-end">13,399,700</td>
-                                        <td className="text-end">13,399,700</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">13,399,700</td> */}
                                     </tr>
                                     <tr>
                                         <td>Biaya Alat Tulis Kantor</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr>
                                         <td>Biaya Prasarana Sekretariat</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr>
                                         <td>Biaya Pengembangan Aplikasi</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr>
                                         <td>Biaya Pelayanan Muzakki</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr>
                                         <td>Biaya Penyusutan Aktiva Tetap</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr>
                                         <td>Biaya Sosialisasi ZIS</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr>
                                         <td>Biaya Lain-Lain</td>
-                                        <td className="text-end">2,096,500</td>
-                                        <td className="text-end">2,096,500</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">2,096,500</td> */}
                                     </tr>
                                     <tr className="fw-bold">
                                         <td></td>
-                                        <td className="text-end">15,496,200</td>
-                                        <td className="text-end">15,496,200</td>
+                                        <td className="text-end">0</td>
+                                        {/* <td className="text-end">15,496,200</td> */}
                                     </tr>
                                 </tbody>
                             </table>

@@ -7,7 +7,7 @@ import "./i18n";
 import { Provider } from "react-redux";
 import  ReactQueryProvider  from './lib/react-query/ReactQueryProvider'
 import { QueryClient } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const queryClient = new QueryClient();
 
@@ -20,11 +20,11 @@ root.render(
         <BrowserRouter>
             <ReactQueryProvider client={queryClient}>
               <App />
-              <ReactQueryDevtools 
+              {/* <ReactQueryDevtools 
                   initialIsOpen 
                   position='bottom'     
                   buttonPosition='bottom-right' 
-              />
+              /> */}
           </ReactQueryProvider>
         </BrowserRouter>
       </React.Fragment>

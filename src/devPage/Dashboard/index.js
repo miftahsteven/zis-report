@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from "react"
-import { Container, Row, Col, Toast, ToastBody, ToastHeader } from "reactstrap"
+import { Container, Row, Col, Toast, ToastBody, ToastHeader, Card, CardBody, CardTitle } from "reactstrap"
 
 //Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb"
 import useMutateDataMustahiq from '../../hooks/useMutateDataMustahiq';
 
+
 //Import Components
 import CardUser from "./card-user"
+import BarChart from "./barchart"
 import CardWelcome from "./card-welcome"
 import MiniWidget from "./mini-widget"
 import Earning from "./earning"
@@ -19,7 +21,9 @@ import logouniversal from "../../assets/images/zis-logo.png"
 
 const DashboardSaas = () => {
   const { mutate, isLoading } = useMutateDataMustahiq();
+  const [dataPenyaluran, setDataPenyaluran] = useState();
   const [dataReport, setDataReport] = useState([])
+  const [dataPerbandinganBlnLalu, setDataPerbandinganBlnLalu] = useState();
   const [errorData, setErrorData] = useState(false);
   const [toast, setToast] = useState(false);  
   const [labelToast, setLabelToast]  = useState();
@@ -35,6 +39,8 @@ const DashboardSaas = () => {
             //const allData = JSON.parse(data)
             console.log("SEMUA DATA", data.data);    
             setDataReport(data.data)
+            setDataPenyaluran(data.dataPenyaluran)
+            setDataPerbandinganBlnLalu(data.dataBulanLalu)
             
         },
         onError :(error) => {
@@ -46,7 +52,6 @@ const DashboardSaas = () => {
         }
       }
     ); 
-
 
   }, []);
 
@@ -77,19 +82,26 @@ const DashboardSaas = () => {
 
           <Row>
             {/* earning */}
-            <Earning dataColors='["--bs-primary"]' />
+            <Earning dataColors='["--bs-primary"]' dataPenyaluran={dataPenyaluran} dataPerbandingan={dataPerbandinganBlnLalu} />
 
             {/* sales anytics */}
-            <SalesAnalytics dataColors='["--bs-primary", "--bs-success", "--bs-danger"]' />
+            <SalesAnalytics dataColors='["--bs-primary", "--bs-success", "--bs-danger", "orange", "purple", "pink"]' />
           </Row>
 
           <Row>
             {/* total selling product */}
-            <TotalSellingProduct />
+            {/* <TotalSellingProduct /> */}
 
             {/* tasks */}
-            <Tasks />
-
+            {/* <Tasks /> */}
+            <Col xl={6}>
+              <Card>
+                <CardBody>
+                  <CardTitle className="mb-4">Referentor Data</CardTitle>
+                  <BarChart dataColors='["--bs-success"]'/>
+                </CardBody>
+              </Card>
+            </Col>
             {/* chat box */}
             <ChatBox />
           </Row>

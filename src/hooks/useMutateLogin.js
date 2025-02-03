@@ -28,7 +28,7 @@ const login = async ( payload) => {
   const { data } = await axios.request({
     method: 'POST',
     //url: '/auth/login',
-    url: `${process.env.REACT_APP_BASEURL}/erpauth/login`,
+    url: `${process.env.REACT_APP_BASEURL}/erpauth/login-mgt`,
     data: datalogin,
     headers: { 
       'Content-Type': 'application/json'
