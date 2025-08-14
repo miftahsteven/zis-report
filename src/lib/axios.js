@@ -4,8 +4,8 @@ const api = axios.create({
   //baseURL: `${import.meta.env.REACT_APP_BASEURL}`,
   baseURL: process.env.REACT_APP_BASEURL,
   //  baseURL: `https://api.zisindosat.id`,
-  // baseURL: `http://localhost:3034`,
-});
+  baseURL: `http://localhost:3034`,
+})
 
 api.interceptors.response.use(
   (response) => {

@@ -4,12 +4,12 @@ import api from 'lib/axios';
 
 const requestCalk= async (params = {}) => {
   const { data } = await api.request({
-    method: 'GET',
-    url: '/report/all-calk',
+    method: "GET",
+    url: "/report/get-posting",
     params: {
       ...params,
     },
-  });
+  })
 
   return data;
 };
