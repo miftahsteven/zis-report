@@ -168,7 +168,7 @@ const SidebarContent = props => {
               <ul className="sub-menu">
                 <li><Link to="/dashboard-zis">{props.t("Report ZIS")}</Link></li>
                 <li><Link to="/dashboard-wakaf">{props.t("Report Wakaf")}</Link></li>
-                <li><Link to="/dashboard-aktifitas">{props.t("Report Aktifitas")}</Link></li>
+                <li><Link to="/dashboard-aktifitas">{props.t("Report VRFP")}</Link></li>
               </ul>
             </li>
 

@@ -24,7 +24,7 @@ import { id } from 'date-fns/locale';
 const Aktifitas = () => {
 
     //meta title
-    document.title = "Report Aktifitas | Dashboard Report";
+    document.title = "Report VRFP | Dashboard Report";
 
 
     const { data, isLoading: loading } = useMutateDataAktifitas()
@@ -110,7 +110,7 @@ const Aktifitas = () => {
         <React.Fragment>
             <div className="page-content">
                 <div className="container-fluid">
-                    <Breadcrumbs title="Aktifitas" breadcrumbItem="Report Aktifitas" />
+                    <Breadcrumbs title="Aktifitas" breadcrumbItem="Report VRFP" />
                     {
                         isLoading ? <Spinners setLoading={setLoading} />
                             :
@@ -119,7 +119,7 @@ const Aktifitas = () => {
                                     <Card>
                                         <CardBody className="border-bottom">
                                             <div className="d-flex align-items-center">
-                                                <h5 className="mb-0 card-title flex-grow-1">Report Aktifitas</h5>
+                                                <h5 className="mb-0 card-title flex-grow-1">Report VRFP</h5>
 
                                             </div>
                                         </CardBody>

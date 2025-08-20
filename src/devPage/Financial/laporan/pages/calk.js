@@ -310,7 +310,7 @@ const CALK = () => {
                   </tr>
                   {[
                     {
-                      bank: "MANDIRI 103-00-9526589-4",
+                      bank: "MANDIRI 1030095265894",
                       val2024:
                         dataKas.length > 0
                           ? Number(
@@ -334,7 +334,7 @@ const CALK = () => {
                     },
 
                     {
-                      bank: "MANDIRI 103-00-9526546-4",
+                      bank: "MANDIRI 1030095265464",
                       val2024:
                         dataKas.length > 0
                           ? Number(
@@ -358,7 +358,7 @@ const CALK = () => {
                     },
 
                     {
-                      bank: "MANDIRI 103-00-0500055-5",
+                      bank: "MANDIRI 1030005000555",
                       val2024:
                         dataKas.length > 0
                           ? Number(
@@ -382,7 +382,7 @@ const CALK = () => {
                     },
 
                     {
-                      bank: "BSM 7015.734.188",
+                      bank: "BSM 7015734188",
                       val2024:
                         dataKas.length > 0
                           ? Number(
@@ -406,7 +406,7 @@ const CALK = () => {
                     },
 
                     {
-                      bank: "BSM 7015.738.876",
+                      bank: "BSM 7015738876",
                       val2024:
                         dataKas.length > 0
                           ? Number(
@@ -430,7 +430,7 @@ const CALK = () => {
                     },
 
                     {
-                      bank: "BSM 7015.740.307",
+                      bank: "BSM 7015740307",
                       val2024:
                         dataKas.length > 0
                           ? Number(
@@ -454,7 +454,7 @@ const CALK = () => {
                     },
 
                     {
-                      bank: "BSM 7015.742.644",
+                      bank: "BSM 7015742644",
                       val2024:
                         dataKas.length > 0
                           ? Number(
@@ -478,7 +478,7 @@ const CALK = () => {
                     },
 
                     {
-                      bank: "BSM-8001516176",
+                      bank: "BSM 8001516176",
                       val2024:
                         dataKas.length > 0
                           ? Number(
@@ -502,7 +502,7 @@ const CALK = () => {
                     },
 
                     {
-                      bank: "BSM 99999.1111.8",
+                      bank: "BSM 9999911118",
                       val2024:
                         dataKas.length > 0
                           ? Number(
@@ -525,7 +525,7 @@ const CALK = () => {
                           : "0",
                     },
                     {
-                      bank: "BSM 99999.3333.2",
+                      bank: "BSM 9999933332",
                       val2024:
                         dataKas.length > 0
                           ? Number(
